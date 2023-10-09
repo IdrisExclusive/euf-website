@@ -5,13 +5,13 @@ import { useState } from "react"
 import { MoonIcon, SunIcon, ChevronDownIcon } from "@radix-ui/react-icons"
 import { useTheme } from "next-themes"
  
-import { Button } from "@/components/ui/button"
+import { Button } from "./button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "./dropdown-menu"
  
 export function ThemeToggleButton() {
     const [buttonClicked, setButtonClicked] = useState(false);
