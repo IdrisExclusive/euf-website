@@ -857,6 +857,10 @@ body {
   border-bottom-right-radius: 9999px;
 }
 
+.rounded-full {
+  border-radius: 9999px;
+}
+
 .border {
   border-width: 1px;
 }
