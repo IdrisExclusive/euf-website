@@ -8,6 +8,8 @@ const config: StorybookConfig = {
     "@storybook/addon-onboarding",
     "@storybook/addon-interactions",
     "@storybook/addon-styling-webpack",
+    '@storybook/addon-a11y',
+    '@storybook/addon-interactions',
     ({
       name: "@storybook/addon-styling-webpack",
 
@@ -32,7 +34,8 @@ const config: StorybookConfig = {
       ],
     },],
       }
-    })
+    }),
+    "@storybook/addon-themes"
   ],
   framework: {
     name: "@storybook/nextjs",

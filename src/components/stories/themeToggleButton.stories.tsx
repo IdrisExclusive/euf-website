@@ -1,6 +1,6 @@
 import { StoryObj, Meta } from "@storybook/react"
 
-import { ThemeToggleButton } from "./themeToggleButton"
+import { ThemeToggleButton } from "../ui/themeToggleButton"
 
 const meta: Meta<typeof ThemeToggleButton> = {
     title: "UI/ToggleButton",
@@ -12,8 +12,6 @@ export default meta;
 
 type Story = StoryObj<typeof ThemeToggleButton>;
 
-export const ToggleButton: Story = {
-    args: {
-
-    }
+export const Default: Story = {
+      
 }
