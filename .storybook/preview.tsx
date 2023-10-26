@@ -2,6 +2,7 @@ import React from 'react';
 import type { Preview } from "@storybook/react";
 import '../src/tailwind.css';
 import { ThemeProvider } from '../src/components/theme-provider';
+import { withThemeByDataAttribute } from '@storybook/addon-themes';
 
 const preview: Preview = {
   parameters: {
@@ -28,3 +29,4 @@ const preview: Preview = {
 };
 
 export default preview;
+

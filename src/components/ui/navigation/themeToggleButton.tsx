@@ -4,9 +4,9 @@ import * as React from "react"
 import { MoonIcon, SunIcon} from "@radix-ui/react-icons"
 import { useTheme } from "next-themes"
  
-import { DropdownMenuItem } from "./dropdown-menu"
-import { ButtonWithDropdown } from './buttonWithDropdown';
-import { buttonVariants } from "./button"
+import { DropdownMenuItem } from "../dropdown-menu"
+import { ButtonWithDropdown } from '../buttonWithDropdown';
+import { buttonVariants } from "../button"
 import { type VariantProps } from "class-variance-authority"
 
 

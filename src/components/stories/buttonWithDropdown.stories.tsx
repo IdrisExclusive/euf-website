@@ -2,7 +2,8 @@ import { Meta, StoryObj } from '@storybook/react';
 import { ButtonWithDropdown } from '../ui/buttonWithDropdown';
 
 const meta: Meta< typeof ButtonWithDropdown > = {
-    component: ButtonWithDropdown
+    component: ButtonWithDropdown,
+    title: "UI/ButtonWithDropdown"
 }
 
 export default meta

@@ -2,9 +2,9 @@
  
 import * as React from "react"
  
-import { DropdownMenuItem } from "./dropdown-menu"
-import { ButtonWithDropdown } from './buttonWithDropdown';
-import { buttonVariants } from "./button"
+import { DropdownMenuItem } from "../dropdown-menu"
+import { ButtonWithDropdown } from '../buttonWithDropdown';
+import { buttonVariants } from "../button"
 import { type VariantProps } from "class-variance-authority"
 
 

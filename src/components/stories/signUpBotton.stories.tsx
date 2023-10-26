@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { SignUpBotton } from "../ui/signUpBotton";
+import { SignUpBotton } from "../ui/navigation/signUpBotton";
 
 const meta: Meta<typeof SignUpBotton> = {
     title: "UI/SignUpBotton",
