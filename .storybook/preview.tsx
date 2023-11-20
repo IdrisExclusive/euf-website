@@ -13,14 +13,24 @@ const preview: Preview = {
         date: /Date$/,
       },
     },
+    nextjs: {
+        appDirectory: true,
+      },
   },
   decorators: [
+    withThemeByDataAttribute({
+      themes: {
+        light: 'light',
+        dark: 'dark',
+      },
+      defaultTheme: 'light',
+      attributeName: 'class',
+    }),
       (Story) => (
       <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
-          disableTransitionOnChange
         >
           <Story />
       </ThemeProvider>
