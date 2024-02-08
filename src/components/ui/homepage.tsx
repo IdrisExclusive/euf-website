@@ -1,3 +1,5 @@
+"use client"
+
 import React, {useRef} from 'react'
 import { CustomValueType, MotionValue, motion, useScroll, useTransform } from 'framer-motion'
 import { Button } from './button'
@@ -25,7 +27,7 @@ export const Rectangle = React.forwardRef<HTMLDivElement, divProps>(
     ({className, y, opacity, ...props}, ref) => (
         <motion.div 
             initial={{opacity: 0, y: '-100%' }}
-            animate={{opacity: 1, y: '0'}}
+            whileInView={{opacity: 1, y: '0'}}
             transition={{duration: 0.5}}
             style={{y: y, opacity: opacity}}
             className='w-[75vw] h-[35vh] rounded-lg ring-2 ring-offset-2 ring-accent bg-primary sm:w-[35vw] sm:h-[75vh]'>
@@ -46,7 +48,7 @@ export const NameOfFoundation = React.forwardRef<HTMLDivElement, divProps>(
     ({className, opacity, ...props}, ref) => (
         <motion.div className={twMerge(className, 'flex flex-col mx-auto justify-center gap-16 w-[80vw] h-[35vh] sm:w-[35vw] sm:h-[75vh] ')}
             initial={{opacity: 0,}}
-            animate={{opacity: 1,}}
+            whileInView={{opacity: 1,}}
             transition={{duration: 1.5}}
             style={{opacity}} >
             <div className='flex flex-col gap-8'>
@@ -60,8 +62,8 @@ export const NameOfFoundation = React.forwardRef<HTMLDivElement, divProps>(
                 </div>
             </div>
             <div className='flex justify-between align-middle lg:mr-16'>
-                <Button variant='outline' className='basis-2/5'>Sign Up</Button>
-                <Button variant='cta' size='lg' className='basis-2/5'>Donate Now</Button>
+                <Button variant='outline' className='basis-2/6'>Sign Up</Button>
+                <Button variant='cta' size='lg' className='basis-3/6'>Donate Now</Button>
             </div>
         </motion.div>
     )
@@ -196,9 +198,9 @@ export const Hero = () => {
     const opacity22 = useTransform(scrollYProgress, [0.4, 0.45], [0, 1])
     const pathLength32 = useTransform(scrollYProgress, [0.45, 0.5], [0, 1])
 
-    const pathLength13 = useTransform(scrollYProgress, [0.5, 0.55], [0, 1])
-    const opacity23 = useTransform(scrollYProgress, [0.5, 0.55], [0, 1])
-    const pathLength33 = useTransform(scrollYProgress, [0.55, 0.6], [0, 0])
+    const pathLength13 = useTransform(scrollYProgress, [0.5, 0.52], [0, 1])
+    const opacity23 = useTransform(scrollYProgress, [0.5, 0.52], [0, 1])
+    const pathLength33 = useTransform(scrollYProgress, [0.52, 0.55], [0, 0])
 
     const y0 = useTransform(scrollYProgress, [0.2, 0.25], ['80%', '0%'])
     const y1 = useTransform(scrollYProgress, [0.3, 0.35], ['80%', '0%'])
@@ -240,20 +242,23 @@ export const Hero = () => {
     const secondaryY = useTransform(scrollYProgress, [0.2, 0.3, 0.55, 0.6], ['-100%', '0%', '0%', '100%'])
     const secondaryOpacity = useTransform(scrollYProgress, [0.2, 0.3, 0.55, 0.6], [0, 1, 1, 0])
 
+    const secondaryY2 = useTransform(scrollYProgress, [0.6, 0.75, 0.95, 1], ['100%', '0%', '0%', '0%'])
+    const secondaryOpacity2 = useTransform(scrollYProgress, [0.6, 0.75, 0.95, 1], [0, 1, 1, 1])
+
     return  <div ref={ref}>
-                <div className='sticky top-12 flex flex-col-reverse mx-auto align-middle gap-8 sm:flex-row w-[80vw] h-[100vh]'>
+                <div className='sticky top-24 flex flex-col-reverse mx-auto align-middle gap-8 sm:flex-row w-[80vw] h-[100vh]'>
                     <NameOfFoundation opacity={opacity} className='basis-1/2' />
                     <Rectangle y={y} opacity={opacity}  />
                 </div>
                 <div className='h-[100vh]'></div>
-                <div className='sticky top-12 flex flex-col-reverse mx-auto align-middle gap-8 sm:flex-row w-[80vw] h-[100vh]'>
+                <div className='sticky top-24 flex flex-col-reverse mx-auto align-middle gap-8 sm:flex-row w-[80vw] h-[100vh]'>
                     <SecondaryRectangle y={secondaryY} opacity={secondaryOpacity}  />
                     <Benefits {...benefitsProps} />
                 </div>
                 <div className='h-[100vh]'></div>
-                <div className='sticky top-12 flex flex-col-reverse mx-auto align-middle gap-8 sm:flex-row w-[80vw] h-[100vh]'>
+                <div className='sticky top-24 flex flex-col-reverse mx-auto align-middle gap-8 sm:flex-row w-[80vw] h-[100vh]'>
                     <SecondBenefits />
-                    <SecondaryRectangle  />
+                    <SecondaryRectangle y={secondaryY2} opacity={secondaryOpacity2} />
                 </div>
                 <div className='h-[100vh]'></div>
             </div>
