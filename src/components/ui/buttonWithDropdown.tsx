@@ -14,13 +14,13 @@ import { cn } from './utils'
 const buttonWithDropdownVariants = cva(
   "inline-flex items-center rounded-full font-semibold transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
   {
-    variants: {
+  variants: {
       variant: {
         default:
           "bg-primary text-primary-foreground shadow-md",
         cta: "text-primary-foreground bg-primary shadow-lg shadow-secondary",
         destructive:
-          "bg-destructive text-destructive-foreground shadow-md",
+        "bg-destructive text-destructive-foreground shadow-md",
         outline:
           "border border-input bg-transparent shadow-md hover:bg-accent text-accent hover:text-accent-foreground",
         secondary:

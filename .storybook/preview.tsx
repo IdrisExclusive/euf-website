@@ -1,7 +1,7 @@
 import React from 'react';
-import type { Preview } from "@storybook/react";
+import type { Preview, ReactRenderer } from "@storybook/react";
 import '../src/tailwind.css';
-import { ThemeProvider } from '../src/components/theme-provider';
+import ThemeProvider from '../src/components/theme-provider';
 import { withThemeByDataAttribute } from '@storybook/addon-themes';
 
 const preview: Preview = {
@@ -18,14 +18,14 @@ const preview: Preview = {
       },
   },
   decorators: [
-    withThemeByDataAttribute({
-      themes: {
-        light: 'light',
-        dark: 'dark',
-      },
-      defaultTheme: 'light',
-      attributeName: 'class',
-    }),
+      withThemeByDataAttribute<ReactRenderer>({
+        themes: {
+          light: 'light',
+          dark: 'dark',
+        },
+        defaultTheme: 'light',
+        attributeName: 'class',
+      }),
       (Story) => (
       <ThemeProvider
           attribute="class"

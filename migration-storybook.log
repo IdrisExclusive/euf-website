@@ -1,0 +1,68 @@
+🔎 checking possible migrations..
+
+🔎 found a 'github-flavored-markdown-mdx' migration:
+╭ Automigration detected ─────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                     │
+│   In MDX1 you had the option of using GitHub flavored markdown.                                                                     │
+│                                                                                                                                     │
+│   Storybook 7.0 uses MDX2 for compiling MDX, and thus no longer supports GFM out of the box.                                        │
+│   Because of this you need to explicitly add the GFM plugin in the addon-docs options:                                              │
+│   https://storybook.js.org/docs/react/writing-docs/mdx#lack-of-github-flavored-markdown-gfm                                         │
+│                                                                                                                                     │
+│   We recommend you follow the guide on the link above, however we can add a temporary storybook addon that helps make this          │
+│   migration easier.                                                                                                                 │
+│   We'll install the addon and add it to your storybook config.                                                                      │
+│                                                                                                                                     │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+? Do you want to run the 'github-flavored-markdown-mdx' migration on your project? » (Y/n)√ Do you want to run the 'github-flavored-markdown-mdx' migration on your project? ... yes
+
+An error occurred while installing dependencies:
+YARN1 error: An unexpected error occurred: "EPERM: operation not permitted, unlink 'C:\\Users\\22056\\Web-Dev\\euf-website-files\\euf-website\\node_modules\\@next\\.swc-win32-x64-msvc-UKZFR2Mf\\next-swc.win32-x64-msvc.node'".
+
+Please check the logfile generated at ./storybook.log for troubleshooting and try again.
+❌ error when running github-flavored-markdown-mdx migration
+HandledError: YARN1 error: An unexpected error occurred: "EPERM: operation not permitted, unlink 'C:\\Users\\22056\\Web-Dev\\euf-website-files\\euf-website\\node_modules\\@next\\.swc-win32-x64-msvc-UKZFR2Mf\\next-swc.win32-x64-msvc.node'".
+
+Please check the logfile generated at ./storybook.log for troubleshooting and try again.
+    at Yarn1Proxy.addDependencies (C:\Users\22056\AppData\Local\npm-cache\_npx\bc7e1e37fcb46ffc\node_modules\@storybook\cli\dist\generate.js:55:75)
+    at async Object.run (C:\Users\22056\AppData\Local\npm-cache\_npx\bc7e1e37fcb46ffc\node_modules\@storybook\cli\dist\generate.js:183:231)
+    ... 2 lines matching cause stack trace ...
+    at async Command.<anonymous> (C:\Users\22056\AppData\Local\npm-cache\_npx\bc7e1e37fcb46ffc\node_modules\@storybook\cli\dist\generate.js:492:3201) {
+  handled: true,
+  cause: Error: YARN1 error: An unexpected error occurred: "EPERM: operation not permitted, unlink 'C:\\Users\\22056\\Web-Dev\\euf-website-files\\euf-website\\node_modules\\@next\\.swc-win32-x64-msvc-UKZFR2Mf\\next-swc.win32-x64-msvc.node'".
+  
+  Please check the logfile generated at ./storybook.log for troubleshooting and try again.
+      at Yarn1Proxy.runAddDeps (C:\Users\22056\AppData\Local\npm-cache\_npx\bc7e1e37fcb46ffc\node_modules\@storybook\cli\dist\generate.js:64:3473)
+      at async Yarn1Proxy.addDependencies (C:\Users\22056\AppData\Local\npm-cache\_npx\bc7e1e37fcb46ffc\node_modules\@storybook\cli\dist\generate.js:54:853)
+      at async Object.run (C:\Users\22056\AppData\Local\npm-cache\_npx\bc7e1e37fcb46ffc\node_modules\@storybook\cli\dist\generate.js:183:231)
+      at async runFixes (C:\Users\22056\AppData\Local\npm-cache\_npx\bc7e1e37fcb46ffc\node_modules\@storybook\cli\dist\generate.js:411:1144)
+      at async automigrate (C:\Users\22056\AppData\Local\npm-cache\_npx\bc7e1e37fcb46ffc\node_modules\@storybook\cli\dist\generate.js:406:676)
+      at async Command.<anonymous> (C:\Users\22056\AppData\Local\npm-cache\_npx\bc7e1e37fcb46ffc\node_modules\@storybook\cli\dist\generate.js:492:3201)
+}
+
+
+╭ Migration check ran with failures ──────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                     │
+│   Failed migrations:                                                                                                                │
+│                                                                                                                                     │
+│   github-flavored-markdown-mdx:                                                                                                     │
+│   YARN1 error: An unexpected error occurred: "EPERM: operation not permitted, unlink 'C:\\Users\\22056\\Web-Dev\\euf-website-file   │
+│   s\\euf-website\\node_modules\\@next\\.swc-win32-x64-msvc-UKZFR2Mf\\next-swc.win32-x64-msvc.node'".                                │
+│                                                                                                                                     │
+│   Please check the logfile generated at ./storybook.log for troubleshooting and try again.                                          │
+│                                                                                                                                     │
+│   You can find the full logs in C:\Users\22056\Web-Dev\euf-website-files\euf-website\migration-storybook.log                        │
+│                                                                                                                                     │
+│   ─────────────────────────────────────────────────                                                                                 │
+│                                                                                                                                     │
+│   If you'd like to run the migrations again, you can do so by running 'npx storybook@next automigrate'                              │
+│                                                                                                                                     │
+│   The automigrations try to migrate common patterns in your project, but might not contain everything needed to migrate to the      │
+│   latest version of Storybook.                                                                                                      │
+│                                                                                                                                     │
+│   Please check the changelog and migration guide for manual migrations and more information:                                        │
+│   https://storybook.js.org/migration-guides/7.0                                                                                     │
+│   And reach out on Discord if you need help: https://discord.gg/storybook                                                           │
+│                                                                                                                                     │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
