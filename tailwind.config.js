@@ -16,6 +16,9 @@ module.exports = {
       },
     },
     extend: {
+      screens: {    
+        "xs": "480px",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -56,6 +59,9 @@ module.exports = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+       aspectRatio: {
+        'phone': '9 / 16',
+      },
       keyframes: {
         "accordion-down": {
           from: { height: 0 },
@@ -65,11 +71,35 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+        "reducedPulse": {
+                "0%, 100%": {
+                  opacity: 1
+                },
+                "50%": {
+                  opacity: 0.85
+                }
+              },
+        "background-shine": {
+          from: {
+            backgroundPosition: "0 0",
+          },
+          to: {
+            backgroundPosition: "-200% 0",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "reducedPulse": "reducedPulse 7s cubic-bezier(0.4, 0, 0.6, 1) infinite;",
+        "background-shine": "background-shine 2s linear infinite",
       },
+      transitionDuration: {
+        '3000': '3000ms',
+        '5000': '5000ms',
+        '7000': '7000ms',
+        '10000': '10000ms',
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

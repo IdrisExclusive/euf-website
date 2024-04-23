@@ -70,7 +70,7 @@ export const Icon: Story = {
         size: 'icon',
         children: <MoonIcon />        
     },
-    play:async ({canvasElement}) => {
+    play: async ({canvasElement}) => {
         const canvas = within(canvasElement)
         const button = canvas.getByRole("button")
         await userEvent.click(button)
@@ -82,6 +82,6 @@ export const HoverIcon: Story = {
     play: async ({canvasElement}) => {
         const canvas = within(canvasElement)
         const button = canvas.getByRole('button')
-        await userEvent.hover(button)
+        await userEvent.hover(button, {delay: 200})
     }
 }

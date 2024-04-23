@@ -1,15 +1,13 @@
 import React from "react"
 import { ChevronDownIcon } from "@radix-ui/react-icons"
- 
-import { buttonVariants} from "./button"
-import { VariantProps, cva } from "class-variance-authority"
+import { type VariantProps, cva } from "class-variance-authority"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "./dropdown-menu"
 
-import { cn } from './utils'
+import { cn } from '../../lib/utils'
 
 const buttonWithDropdownVariants = cva(
   "inline-flex items-center rounded-full font-semibold transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
@@ -17,8 +15,8 @@ const buttonWithDropdownVariants = cva(
   variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-md",
-        cta: "text-primary-foreground bg-primary shadow-lg shadow-secondary",
+          "bg-primary text-slate-100 shadow-md",
+        cta: "text-slate-100 bg-primary shadow-lg shadow-secondary",
         destructive:
         "bg-destructive text-destructive-foreground shadow-md",
         outline:
@@ -29,7 +27,7 @@ const buttonWithDropdownVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "text-sm h-9",
+        default: "text-xs md:w-36 lg:w-40 lg:text-sm h-9",
         sm: "h-8 text-xs",
         lg: "h-10 text-lg",
       },
@@ -77,7 +75,7 @@ const Dropdown = React.forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<
         {...props}
       >
         <ChevronDownIcon
-          className="mx-auto transition-transform delay-75 text-inherit h-[1.2rem] w-[1.2rem] group-hover:scale-110 group-hover:translate-y-[2px] group-data-[state=open]:scale-110 group-data-[state=open]:rotate-180 focus:outline-none"
+          className="mx-auto transition-transform delay-75 text-slate-100 h-[1.2rem] w-[1.2rem] group-hover:scale-110 group-hover:translate-y-[2px] group-data-[state=open]:scale-110 group-data-[state=open]:rotate-180 focus:outline-none"
         />
         <span className="sr-only">Toggle theme</span>
       </button>

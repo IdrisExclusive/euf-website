@@ -1,0 +1,34 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1713717445764,
+      "tag": "0000_whole_dust",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1713717534851,
+      "tag": "0001_organic_thunderbolts",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1713717719509,
+      "tag": "0002_dapper_anthem",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1713717732827,
+      "tag": "0003_special_blur",
+      "breakpoints": true
+    }
+  ]
+}

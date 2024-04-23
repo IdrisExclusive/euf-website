@@ -1,61 +1,80 @@
-import React from 'react';
-import { Menu, menuProps, thisMenuItems } from './menu';
-import { type menuItemsType } from './sidebar'
-import Image from 'next/image';
-import { SignUpBotton } from './signUpBotton';
-import { ThemeToggleButtonWithDropdown } from './themeToggleButton';
-import { Button } from '../button';
-import Link from 'next/link';
-import { cn } from '../utils';
-import { cva, type VariantProps } from 'class-variance-authority';
-import { StaticImport } from 'next/dist/shared/lib/get-img-props';
-import { buttonWithDropdownProps } from '../buttonWithDropdown';
-import { Url } from "next/dist/shared/lib/router/router";
-import { twMerge } from 'tailwind-merge';
+"use client";
 
-export const navLinks: {title: String; url: Url}[] = [
-    {title: "Home", url: "#"},
-    {title: "About", url: "#"},
-    {title: "Help", url: "#"}
-  ]
+import React, { useRef, useState } from "react";
+import { Menu, menuProps } from "./menu";
+import { menuItems, type menuItemsType } from "../../../lib/data/home-data";
+import Image from "next/image";
+import { SignUpBotton } from "./signUpBotton";
+import { ThemeToggleSwitch } from "./themeToggleButton";
+import { Button } from "../button";
+import Link from "next/link";
+import { cn } from "../../../lib/utils";
+import { cva, type VariantProps } from "class-variance-authority";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import { buttonWithDropdownProps } from "../buttonWithDropdown";
+import {
+  motion,
+  useMotionValueEvent,
+  useScroll,
+} from "framer-motion";
 
-export const navbarVariants = cva('fixed h-12 backdrop-blur shadow-md left-0 right-0 top-0 flex justify-between items-center py-2 sm:px-6 md:px-12 lg:px-48  space-x-4', {
-  variants: {
-    background: {
-      blank: "bg-background/10",
-      primary: "bg-primary/50",
-      secondary: "bg-secondary/50",
-      accent: "bg-accent/50"
+export const navbarVariants = cva(
+  "fixed w-full h-16 backdrop-blur shadow-md left-0 right-0 top-0 flex justify-between items-center py-4  space-x-4",
+  {
+    variants: {
+      background: {
+        blank: "bg-background/10",
+        primary: "bg-primary/50",
+        secondary: "bg-secondary/50",
+        accent: "bg-accent/50",
+      },
+      menuslot: {
+        left: "pl-14 pr-4",
+        right: "pr-14 pl-4",
+      },
     },
-    menuSlot: {
-      left: "pl-14 pr-4",
-      right: "pr-14 pl-4"
-    }
-  },
-  defaultVariants: {
-    background: "blank",
-    menuSlot: "left"
+    defaultVariants: {
+      background: "blank",
+      menuslot: "left",
+    },
   }
-})
+);
 
-export interface navbarProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof navbarVariants> {
-  logoSrc: string | StaticImport;
-  navLinks: menuItemsType
+export interface navbarProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof navbarVariants> {
+  logosrc: string | StaticImport;
+  navlinks: menuItemsType;
 }
 
 export const Navbar = React.forwardRef<HTMLDivElement, navbarProps>(
-  ({className, background, menuSlot, logoSrc, navLinks, children, ...props}, ref) => (
-    <div className={cn(navbarVariants({background, menuSlot, className}))} ref={ref} {...props} >
-      <div className='inline-flex space-x-2 sm:space-x-4 justify-start items-center'>
-        <Link href='#'>
-          <Image src={logoSrc} alt='logo' width='48' height='24' />
+  (
+    { className, background, menuslot, logosrc, navlinks, children, ...props },
+    ref
+  ) => (
+    <div
+      className={cn(navbarVariants({ background, menuslot, className }))}
+      ref={ref}
+      {...props}>
+      <div className="mx-4 inline-flex space-x-2 sm:space-x-4 justify-start items-center">
+        <Link href="/">
+          <Image
+            src="/euf-logo.svg"
+            alt="logo"
+            width="48"
+            height="24"
+            priority={true}
+            className="w-auto h-auto"
+          />
         </Link>
-        <ul className='hidden sm:inline-flex justify-start space-x-4 px-4 text-md font-semibold text-primary-foreground'>
-          {navLinks.map(link => (
-            <Button variant="ghost" size="sm">
-              <Link href={link.url}>
-                {link.title}
-              </Link>
+        <ul className="hidden md:inline-flex justify-start md:max-lg:space-x-4 space-x-0 lg:space-x-8 px-8 text-md font-semibold text-primary-foreground">
+          {navlinks.map((link, i) => (
+            <Button
+              key={i}
+              variant="ghost"
+              size="sm"
+              className="text-foreground hover:-translate-y-1 delay-150 duration-300">
+              <Link href={link.url}>{link.title}</Link>
             </Button>
           ))}
         </ul>
@@ -63,24 +82,77 @@ export const Navbar = React.forwardRef<HTMLDivElement, navbarProps>(
       {children}
     </div>
   )
-)
+);
 
-interface NavbarWithMenuProps extends menuProps, buttonWithDropdownProps {logoSrc: string | StaticImport}
+export const NavbarMotion = motion(Navbar);
 
-export const NavbarWithMenu = React.forwardRef<HTMLDivElement, NavbarWithMenuProps>((props, ref) => (
-  <div {...props} ref={ref} className={twMerge("flex flex-col", props.className)}>
-    <div className='z-20'>
-      <Menu position={props.position} background={props.background}  positionItems={props.positionItems} width={props.width} buttonSize={props.buttonSize} menuItems={thisMenuItems} />
-      <Navbar background={props.background} menuSlot={props.position} logoSrc={props.logoSrc}  navLinks={navLinks}>
-        <div className='inline-flex space-x-4 justify-end items-center'>
-          <SignUpBotton variant={props.variant} size={props.size} />
-          <ThemeToggleButtonWithDropdown variant={props.variant} size={props.size} className='hidden sm:inline-flex'  />
-        </div>
-      </Navbar>
+interface NavbarWithMenuProps extends menuProps, buttonWithDropdownProps {
+  logosrc: string | StaticImport;
+}
+
+export const NavbarWithMenu = ({
+  className,
+  position,
+  background,
+  positionItems,
+  width,
+  buttonsize,
+  logosrc,
+  size,
+  variant,
+  children,
+}: NavbarWithMenuProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [showNavbar, setShowNavBar] = useState<boolean>(true);
+  const { scrollYProgress } = useScroll({ target: ref });
+
+  useMotionValueEvent(scrollYProgress, "change", (current) => {
+    if (window.innerWidth < 640) {
+      const scrollDiff =
+        current && scrollYProgress.getPrevious()
+          ? current - scrollYProgress.getPrevious()!
+          : 0;
+      scrollDiff < 0.00005
+        ? setShowNavBar(true)
+        : scrollDiff < 0
+        ? setShowNavBar(true)
+        : setShowNavBar(false);
+    }
+  });
+
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        "relative flex flex-col justify-center items-center w-full",
+        className
+      )}>
+      <motion.div
+        className="z-20"
+        initial={{ y: 0, opacity: 1 }}
+        animate={{ y: showNavbar ? 0 : -100, opacity: showNavbar ? 1 : 0 }}
+        transition={{ duration: 0.4, delay: 0.1 }}>
+        <Menu
+          position={position}
+          background={background}
+          positionItems={positionItems}
+          width={width}
+          buttonsize={buttonsize}
+          menuitems={menuItems}
+        />
+        <Navbar
+          background={background}
+          menuslot={position}
+          logosrc={logosrc}
+          navlinks={menuItems}
+          className={className}>
+          <div className="px-8 md:px-20 lg:px-28 inline-flex space-x-4 justify-end items-center">
+            <SignUpBotton variant={variant} size={size} />
+            <ThemeToggleSwitch className="hidden sm:inline-flex" />
+          </div>
+        </Navbar>
+      </motion.div>
+      <div className="z-10">{children}</div>
     </div>
-    <div className='z-10'>
-      {props.children}
-    </div>
-  </div>
-  )
-)
+  );
+};

@@ -25,7 +25,7 @@ interface toggleFunction {
 }
 
 export const MenuToggleBotton: React.FC<toggleFunction> = ({toggle, size="md"}) => (
-  <Button className={`absolute left-2 top-2 scale-100 inline z-50 px-4 py-2 rounded-full stroke-primary-foreground hover:stroke-accent-foreground ${size==="xs"? "scale-50" : size==="sm"? "scale-75" : size==="md"? "scale-90" : "scale-100"}`} 
+  <Button className={`absolute md:hidden left-4 top-4 scale-100 inline z-50 px-4 py-2 rounded-full stroke-foreground hover:stroke-accent-foreground ${size==="xs"? "scale-50" : size==="sm"? "scale-75" : size==="md"? "scale-90" : "scale-100"}`} 
     variant="ghost" size="icon" onClick={toggle}>
     <svg className="absolute top-2 left-2" width="23" height="23" viewBox="0 0 23 23">
       <Path
@@ -35,7 +35,7 @@ export const MenuToggleBotton: React.FC<toggleFunction> = ({toggle, size="md"}) 
         }}
       />
       <Path
-        d="M 2 9.423 L 15 9.423"
+        d="M 2 9.423 L 20 9.423"
         variants={{
           closed: { opacity: 1 },
           open: { opacity: 0 }

@@ -1,13 +1,11 @@
-import { Url } from 'next/dist/shared/lib/router/router';
 import Link from 'next/link';
 import React from 'react';
 import { Variants, motion } from 'framer-motion';
 import { ThemeToggleButton } from './themeToggleButton';
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from '../utils';
+import { cn } from '../../../lib/utils';
 import clsx from 'clsx';
-
-export type menuItemsType = {title: String; url: Url}[]
+import { type menuItemsType } from '../../../lib/data/home-data';
 
 const sidebarVariants = cva("absolute flex flex-col gap-8 justify-between items-center z-30 px-6 py-12 h-full max-w-md backdrop-blur",
     {
@@ -35,7 +33,7 @@ const sidebarVariants = cva("absolute flex flex-col gap-8 justify-between items-
         },
         defaultVariants: {
             position: "left",
-            positionItems: "center",
+            positionItems: "start",
             width: "3/4",
             background: "accent"
         }
@@ -76,26 +74,27 @@ const itemVariants: Variants = {
 type textAlignOptions = "left" | "right" | "center"
 
 export interface sidebarProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof sidebarVariants> {
-    textAlign?: textAlignOptions;
-    menuItems: menuItemsType;
+    textalign?: textAlignOptions;
+    menuitems: menuItemsType;
 }
 
 const Sidebar = React.forwardRef<HTMLDivElement, sidebarProps> (
-    ({className, position, positionItems, width, background, menuItems, children, ...props}, ref) => (
+    ({className, position, positionItems, width, background, menuitems, children, ...props}, ref) => (
     <div className={cn(sidebarVariants({position, positionItems, width, background, className}))}
         ref={ref}
         {...props}
         >
-        <motion.ul className={clsx('font-extrabold text-3xl text-primary-foreground space-y-10', 
+        <motion.ul className={clsx('font-extrabold text-3xl text-primary-foreground mt-10 space-y-10', 
             {"text-left" : positionItems === "start", 
             "text-right" : positionItems === "end", 
             "text-center" : positionItems === "center"}
             )}
                     variants={listVariants}>
             {
-                menuItems.map(
-                    item => (
+                menuitems.map(
+                    (item, i) => (
                         <motion.li
+                        key={i}
                         initial={{color: "hsl(var(--primary-foreground))"}}
                         whileHover={{
                             color: "hsl(var(--accent))"

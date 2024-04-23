@@ -1,7 +1,8 @@
 import * as React from "react"
 import { DropdownMenuItem } from "../dropdown-menu"
 import { ButtonWithDropdown, buttonWithDropdownVariants, Button, Dropdown } from '../buttonWithDropdown';
-import { cn } from "../utils";
+import { cn } from "../../../lib/utils";
+import Link from "next/link";
 
 
 const SignUpBotton = React.forwardRef<React.ElementRef<typeof ButtonWithDropdown>, React.ComponentPropsWithoutRef<typeof ButtonWithDropdown>>(
@@ -12,17 +13,17 @@ const SignUpBotton = React.forwardRef<React.ElementRef<typeof ButtonWithDropdown
         {...props}
         >
         <Button className="hover:bg-slate-400/20">
-            Donate Now
+            <Link href="#">Donate Now</Link>            
         </Button>
         <Dropdown className="hover:bg-slate-400/20">
-            <DropdownMenuItem >
-                Donate
+            <DropdownMenuItem asChild>
+                <Link href="#">Donate</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem >
-                Sign up
+            <DropdownMenuItem asChild >
+                <Link href="/sign-up">Sign up</Link>
              </DropdownMenuItem>
-             <DropdownMenuItem >
-                Sign in
+             <DropdownMenuItem asChild >
+                <Link href="/sign-in">Sign in</Link>
             </DropdownMenuItem>
         </Dropdown>
         </ButtonWithDropdown>

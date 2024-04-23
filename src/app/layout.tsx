@@ -1,11 +1,14 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Prompt } from 'next/font/google'
 import ThemeProvider from '@/components/theme-provider'
 import { NavbarWithMenu } from '@/components/ui/navigation/navbar'
-import { thisMenuItems } from '@/components/ui/navigation/menu'
+import { menuItems } from '@/lib/data/home-data'
+import { Toaster } from '@/components/ui/toaster'
+import { useMotionValueEvent, useScroll } from 'framer-motion'
+import { useRef, useState } from 'react'
 
-const inter = Inter({ subsets: ['latin'] })
+const prompt = Prompt({weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"], subsets: ['latin']})
 
 export const metadata: Metadata = {
   title: 'Eagle Ummah Foundation',
@@ -17,16 +20,22 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${prompt.className} antialiased relative`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
-          enableSystem
+          enableSystem   
         >
-          <NavbarWithMenu logoSrc="/euf-logo.svg" menuItems={thisMenuItems} >
+          <NavbarWithMenu 
+            logosrc="/euf-logo.svg" menuitems={menuItems}
+            className='w-full' >
             {children}
+            <Toaster />
+            <div className="-z-20 w-[400px] h-[400px] rounded-full bg-gradient-to-bl from-primary/60 to-secondary/80 blur-[150px] absolute top-10 mx-auto"></div>
+            <div className="-z-20 w-[400px] h-[400px] rounded-full bg-gradient-to-br from-primary/60 to-secondary/80 blur-[150px] absolute top-[300px] right-0"></div>
           </NavbarWithMenu>
         </ThemeProvider>
         </body>
