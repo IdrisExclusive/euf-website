@@ -23,6 +23,7 @@ import { Separator } from "@radix-ui/react-dropdown-menu";
 import { useEffect } from "react";
 import { Socials } from "./socials";
 import { toast } from "../use-toast";
+import { SpinnerGap } from "@phosphor-icons/react";
 
 export const SignUpForm = () => {
   const form = useForm<z.infer<typeof newUserFrontEndSchema>>({
@@ -35,8 +36,8 @@ export const SignUpForm = () => {
     resolver: zodResolver(newUserFrontEndSchema),
   });
 
-  function onSubmit(data: z.infer<typeof newUserFrontEndSchema>) {
-    signUp(data).then((state) => {
+  async function onSubmit(data: z.infer<typeof newUserFrontEndSchema>) {
+    await signUp(data).then((state) => {
       if (state.errors?.name) {
         form.setError("name", { message: state.errors.name.join() });
       } else if (state.errors?.email) {
@@ -54,11 +55,12 @@ export const SignUpForm = () => {
   }
 
   const error = form.formState.errors.root;
+  const pending = form.formState.isSubmitting
 
   useEffect(() => {
     error &&
       toast({
-        variant: error.message?.includes("Success") ? "success" : "destructive",
+        variant: error.message?.includes("Success") ? "default" : "destructive",
         title: error.message,
       });
   }, [error]);
@@ -94,7 +96,7 @@ export const SignUpForm = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel className="after:content-['*'] after:ml-0.5 after:text-destructive">Name</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
@@ -111,7 +113,7 @@ export const SignUpForm = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="after:content-['*'] after:ml-0.5 after:text-destructive">Email</FormLabel>
                   <FormControl>
                     <Input
                       type="email"
@@ -128,7 +130,7 @@ export const SignUpForm = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className="after:content-['*'] after:ml-0.5 after:text-destructive">Password</FormLabel>
                   <FormControl>
                     <Input type="password" placeholder="********" {...field} />
                   </FormControl>
@@ -141,7 +143,7 @@ export const SignUpForm = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
+                  <FormLabel className="after:content-['*'] after:ml-0.5 after:text-destructive">Confirm Password</FormLabel>
                   <FormControl>
                     <Input type="password" placeholder="********" {...field} />
                   </FormControl>
@@ -151,9 +153,10 @@ export const SignUpForm = () => {
             />
             <Button
               type="submit"
-              disabled={form.formState.isSubmitting}
-              className="w-full">
-              Sign Up
+              disabled={pending}
+              className="w-full flex justify-center items-center">
+              {pending && <SpinnerGap size={20} className="mx-4 animate-spin"/>}
+              {`${pending? "Signing Up" : "Sign Up"}`}
             </Button>
           </form>
         </Form>

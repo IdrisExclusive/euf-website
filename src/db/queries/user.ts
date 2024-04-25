@@ -3,9 +3,10 @@ import db from "../drizzle"
 import { newUserFrontEndSchema, newUserBackEndSchema, users } from "../schema"
 import { z } from "zod"
 
-export const getUserByEmail = async (email: string): Promise<z.infer<typeof newUserBackEndSchema>[] | null> => {
+export const getUserByEmail = async (email: string): Promise<z.infer<typeof newUserBackEndSchema> | null> => {
     try {
-       return await db.select().from(users).where(eq(users.email, email))
+       const user = await db.select().from(users).where(eq(users.email, email))
+        return user[0]
     } catch (error) {
         return null
     }

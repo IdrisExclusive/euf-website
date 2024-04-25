@@ -32,7 +32,7 @@ export const users = pgTable("user", {
     .primaryKey()
     .default(sql`gen_random_uuid()`),
   name: text("name").notNull().default(""),
-  email: text("email").notNull(),
+  email: text("email").unique().notNull(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   password: text("password").notNull().default(""),
   role: text("role", { enum: role }).default("MEMBER"),
@@ -70,7 +70,7 @@ export const newUserBackEndSchema = createSelectSchema(users, {
     .regex(/(?=.*[@$!%*?&,./-=+;:'"|#^~])/, {
       message: "Password must include one special character",
     }),
-    role: z.enum(role).optional
+    role: z.enum(role).optional()
 })
   .omit({
     id: true,

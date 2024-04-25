@@ -1,14 +1,15 @@
 "use server"
 
-import { accounts, existingUserSchema } from "@/db/schema"
+import { existingUserSchema } from "@/db/schema"
 import { z } from "zod"
 import { type existingUserState } from "@/lib/type"
 import { auth, signIn } from "../../auth"
-import db from "@/db/drizzle"
+import { AuthError } from "next-auth"
+import { getUserByEmail } from "@/db/queries/user"
 
 export const credentialLogin = async (data: z.infer<typeof existingUserSchema>): Promise<existingUserState> => {
     const validUser = existingUserSchema.safeParse(data)
-
+    
     if(!validUser.success) {
         return {
             errors: validUser.error.flatten().fieldErrors,
@@ -19,30 +20,38 @@ export const credentialLogin = async (data: z.infer<typeof existingUserSchema>):
 
     const {email, password} = validUser.data
 
-    try{
-        await signIn(
-            "credentials", {
-                email: email,
-                pasword: password,
-                callbackUrl: "/"
-            }
-        )
-        const account = await db.select().from(accounts)
-        const userId = account[0].userId
-    } catch (error) {
-        return {}
+    const user = await getUserByEmail(email)
+
+    if(!user) {
+        return {
+            message: "Check your email and try again",
+            error: true
+        }
     }
 
-    return {
+
+
+    try{
+        await signIn("credentials", {email, password})
+    } catch (error) {
+        if(error instanceof AuthError) {
+            switch (error.type) {
+                case "CredentialsSignin": return {message: "Invalid password", error: true}
+                default: return {message: "Something went wrong!", error: true}
+                
+            }
+        }
+    }
+   return {
+        message: "Signin successful",
         error: false
     }
 }
 
 export const oAuthLogin = async (provider: string) => {
-    const session = await auth()
-    console.log(session)
-    await signIn(provider, {
-        redirectTo: "/"
-    })
+    await signIn("resend", {email: "ahmad.idris10ia@gmail.com", redirectTo: "/"})
+    // await signIn(provider, {
+    //     redirectTo: "/"
+    // })
     return {}
 }

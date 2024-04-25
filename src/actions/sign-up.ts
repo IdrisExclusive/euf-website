@@ -5,6 +5,8 @@ import { newUserFrontEndSchema } from "@/db/schema";
 import { newUserState } from "@/lib/type";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
+import { signIn, } from "../../auth";
+import { cookies } from "next/headers";
 
 export async function signUp(
   data: z.infer<typeof newUserFrontEndSchema>
@@ -21,33 +23,39 @@ export async function signUp(
 
   const { email, password } = validNewUser.data;
 
-  const existingUser = await getUserByEmail(email)
-  
-  console.log(existingUser);
+  const existingUser = await getUserByEmail(email);
 
-  if (existingUser && existingUser.length > 0) {
+  if (existingUser) {
     return {
       message: "User already exists",
       error: true,
     };
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password!, 10);
   validNewUser.data.password = hashedPassword;
 
-  console.log(validNewUser.data);
-
-  await createUser(validNewUser.data).then((data) => {
-    if (data) {
+  await createUser(validNewUser.data).then((error) => {
+    if (error) {
       return {
-        message: data?.message,
+        message: error?.message,
         error: true,
       };
     }
   });
+  
+  const expires = new Date(Date.now() + 1000 * 3600* 24) // expires after 1 day
+  cookies().set("email", email, {httpOnly: true, expires})
 
+  await signIn("resend", { email });
+  
   return {
-    message: "Success: User Created",
+    message: "Your account creation was successful",
     error: false,
   };
+}
+
+export async function resendVerification() {
+  const email = cookies().get("email")?.value
+  await signIn("resend", { email })
 }

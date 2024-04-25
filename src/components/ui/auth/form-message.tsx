@@ -2,7 +2,7 @@ import { emailState } from "@/lib/type";
 import { CheckCircledIcon, CrossCircledIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
 
-export const FormServerMessage = ({submitted, message}: emailState) => {
+export const FormStatusMessage = ({submitted = false, message}: emailState) => {
   if (!message) return null;
 
   return (

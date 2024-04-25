@@ -27,7 +27,7 @@ import { type emailState } from "@/lib/type";
 import { useFormState } from "react-dom";
 import { useFormStatus } from "react-dom";
 import { contactUsSection, exploreSection, getInvolvedSection, supportSection } from "@/lib/data/home-data";
-import { FormServerMessage } from "./form/form-message";
+import { FormStatusMessage } from "./auth/form-message";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { useToast } from "@/components/ui/use-toast"
@@ -168,6 +168,6 @@ const FormComponent = ({form, state}:{form: UseFormReturn<z.infer<typeof emailSc
                                 )
                             }
                         />}
-                        {submitted && <FormServerMessage {...state} /> }
+                        {submitted && <FormStatusMessage {...state} /> }
                 </div>
 }

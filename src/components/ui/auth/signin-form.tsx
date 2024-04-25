@@ -18,12 +18,12 @@ import {
   FormMessage,
 } from "../form";
 import { Input } from "../input";
-import { signUp } from "@/actions/sign-up";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { useEffect } from "react";
 import { Socials } from "./socials";
 import { toast } from "../use-toast";
 import { credentialLogin } from "@/actions/login";
+import { SpinnerGap } from "@phosphor-icons/react";
 
 export const SignInForm = () => {
   const form = useForm<z.infer<typeof existingUserSchema>>({
@@ -34,8 +34,8 @@ export const SignInForm = () => {
     resolver: zodResolver(existingUserSchema),
   });
 
-  function onSubmit(data: z.infer<typeof existingUserSchema>) {
-    credentialLogin(data).then((state) => {
+  async function onSubmit(data: z.infer<typeof existingUserSchema>) {
+    await credentialLogin(data).then((state) => {
       if (state.errors?.email) {
         form.setError("email", { message: state.errors.email.join() });
       } else if (state.errors?.password) {
@@ -47,11 +47,12 @@ export const SignInForm = () => {
   }
 
   const error = form.formState.errors.root;
+  const pending = form.formState.isSubmitting;
 
   useEffect(() => {
     error &&
       toast({
-        variant: error.message?.includes("Success") ? "success" : "destructive",
+        variant: error.message?.includes("successful") ? "default" : "destructive",
         title: error.message,
       });
   }, [error]);
@@ -87,7 +88,7 @@ export const SignInForm = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="after:content-['*'] after:ml-0.5 after:text-destructive">Email</FormLabel>
                   <FormControl>
                     <Input
                       type="email"
@@ -105,7 +106,7 @@ export const SignInForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="flex flex-row justify-between items-center">
-                    Password{" "}
+                    <span className="after:content-['*'] after:ml-0.5 after:text-destructive">Password</span>
                     <Link
                       href="#"
                       className="text-xs text-secondary hover:text-secondary/80 my-[1px]">
@@ -121,9 +122,10 @@ export const SignInForm = () => {
             />
             <Button
               type="submit"
-              disabled={form.formState.isSubmitting}
-              className="w-full">
-              Sign Up
+              disabled={pending}
+              className="w-full flex justify-center items-center">
+              {pending && <SpinnerGap size={20} className="mx-4 animate-spin"/>}
+              {`${pending? "Signing In" : "Sign In"}`}
             </Button>
           </form>
         </Form>
@@ -132,9 +134,9 @@ export const SignInForm = () => {
         <Muted>
           No account?{" "}
           <Link
-            href="/sign-in"
+            href="/sign-up"
             className="text-secondary font-semibold hover:text-secondary/80">
-            Sign in
+            Sign up
           </Link>
         </Muted>
       </CardFooter>
