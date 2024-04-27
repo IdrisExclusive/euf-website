@@ -64,7 +64,7 @@ export const Navbar = React.forwardRef<HTMLDivElement, navbarProps>(
             width="48"
             height="24"
             priority={true}
-            className="w-auto h-auto"
+            className="w-20 h-10 object-covert"
           />
         </Link>
         <ul className="hidden md:inline-flex justify-start md:max-lg:space-x-4 space-x-0 lg:space-x-8 px-8 text-md font-semibold text-primary-foreground">

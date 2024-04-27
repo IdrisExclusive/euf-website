@@ -1,11 +1,7 @@
 import { cn } from "@/lib/utils";
-import { Url } from "next/dist/shared/lib/router/router";
-import Link from "next/link";
 import { Button } from "../button";
 import Image from "next/image";
 import { oAuthLogin } from "@/actions/login";
-import { useSearchParams } from "next/navigation";
-import { useFormState } from "react-dom";
 
 export const Socials = ({ className }: { className?: string }) => (
   <div
@@ -41,7 +37,7 @@ const SocialButton = ({ logo, name, provider = "google", className }: SocialButt
           variant={"outline"}
           type="submit"
           className={cn(
-            "justify-center items-center w-16 h-16 rounded-full border-none dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800",
+            "shadow-sm shadow-slate-400/50 justify-center items-center w-16 h-16 rounded-full border-none dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800",
             className
           )}>
           <Image src={logo} alt={name} width={32} height={32} />

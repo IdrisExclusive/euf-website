@@ -24,6 +24,7 @@ import { useEffect } from "react";
 import { Socials } from "./socials";
 import { toast } from "../use-toast";
 import { SpinnerGap } from "@phosphor-icons/react";
+import { FormStatusMessage } from "./form-message";
 
 export const SignUpForm = () => {
   const form = useForm<z.infer<typeof newUserFrontEndSchema>>({
@@ -38,7 +39,8 @@ export const SignUpForm = () => {
 
   async function onSubmit(data: z.infer<typeof newUserFrontEndSchema>) {
     await signUp(data).then((state) => {
-      if (state.errors?.name) {
+      if(state) {{
+        if (state.errors?.name) {
         form.setError("name", { message: state.errors.name.join() });
       } else if (state.errors?.email) {
         form.setError("email", { message: state.errors.email.join() });
@@ -50,20 +52,12 @@ export const SignUpForm = () => {
         });
       } else {
         form.setError("root", { message: state.message });
-      }
-    });
+      }}
+    }});
   }
 
-  const error = form.formState.errors.root;
-  const pending = form.formState.isSubmitting
-
-  useEffect(() => {
-    error &&
-      toast({
-        variant: error.message?.includes("Success") ? "default" : "destructive",
-        title: error.message,
-      });
-  }, [error]);
+  const status = form.formState.errors.root;
+  const pending = form.formState.isSubmitting || form.formState.isSubmitSuccessful;
 
   return (
     <Card className="mx-auto my-auto p-2 space-y-2 w-96">
@@ -96,7 +90,9 @@ export const SignUpForm = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="after:content-['*'] after:ml-0.5 after:text-destructive">Name</FormLabel>
+                  <FormLabel className="after:content-['*'] after:ml-0.5 after:text-destructive">
+                    Name
+                  </FormLabel>
                   <FormControl>
                     <Input
                       type="text"
@@ -113,7 +109,9 @@ export const SignUpForm = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="after:content-['*'] after:ml-0.5 after:text-destructive">Email</FormLabel>
+                  <FormLabel className="after:content-['*'] after:ml-0.5 after:text-destructive">
+                    Email
+                  </FormLabel>
                   <FormControl>
                     <Input
                       type="email"
@@ -130,7 +128,9 @@ export const SignUpForm = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="after:content-['*'] after:ml-0.5 after:text-destructive">Password</FormLabel>
+                  <FormLabel className="after:content-['*'] after:ml-0.5 after:text-destructive">
+                    Password
+                  </FormLabel>
                   <FormControl>
                     <Input type="password" placeholder="********" {...field} />
                   </FormControl>
@@ -143,7 +143,9 @@ export const SignUpForm = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="after:content-['*'] after:ml-0.5 after:text-destructive">Confirm Password</FormLabel>
+                  <FormLabel className="after:content-['*'] after:ml-0.5 after:text-destructive">
+                    Confirm Password
+                  </FormLabel>
                   <FormControl>
                     <Input type="password" placeholder="********" {...field} />
                   </FormControl>
@@ -155,21 +157,30 @@ export const SignUpForm = () => {
               type="submit"
               disabled={pending}
               className="w-full flex justify-center items-center">
-              {pending && <SpinnerGap size={20} className="mx-4 animate-spin"/>}
-              {`${pending? "Signing Up" : "Sign Up"}`}
+              {pending && (
+                <SpinnerGap size={20} className="mx-4 animate-spin" />
+              )}
+              {`${pending ? "Signing Up" : "Sign Up"}`}
             </Button>
           </form>
         </Form>
       </CardContent>
-      <CardFooter>
-        <Muted>
+      <CardFooter className="flex flex-col justify-start items-start">
+        {!status?.message && <Muted>
           Already have an account?{" "}
           <Link
             href="/sign-in"
             className="text-secondary font-semibold hover:text-secondary">
             Sign in
           </Link>
-        </Muted>
+        </Muted>}
+        {status?.message && (
+          <FormStatusMessage
+            type={`${status.message?.includes("Success") ? "success" : "error"}`}
+            message={status.message}
+            className="self-center mt-0 justify-center items-center w-full"
+          />
+        )}
       </CardFooter>
     </Card>
   );

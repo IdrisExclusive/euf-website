@@ -1,7 +1,5 @@
 "use server"
 
-import { VercelInviteUserEmail } from "../../react-email-starter/emails/vercel-invite-user"
-
 type parmasType = {
     identifier?: string;
     url?: string;
@@ -13,7 +11,7 @@ type parmasType = {
 }
 
 export default async function sendVerification(from: string, to: string, url:string ) {
-  const data = await fetch("http://localhost:3000/api/send", {
+  await fetch("http://localhost:3000/api/send", {
     method: "POST",
     headers: {
       "content-type": "application/json"

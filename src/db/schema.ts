@@ -49,10 +49,10 @@ export const existingUserSchema = createInsertSchema(users, {
     .min(1, {message: "Please enter your password"}),
 }).omit({
   id: true,
-  name: true,
-  emailVerified: true,
-  role: true,
-  image: true,
+  // name: true,
+  // emailVerified: true,
+  // role: true,
+  // image: true,
 });
 
 export const newUserBackEndSchema = createSelectSchema(users, {
@@ -74,8 +74,8 @@ export const newUserBackEndSchema = createSelectSchema(users, {
 })
   .omit({
     id: true,
-    emailVerified: true,
-    image: true,
+    // emailVerified: true,
+    // image: true,
   })
 
 export const newUserFrontEndSchema = createInsertSchema(users, {

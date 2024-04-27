@@ -168,6 +168,6 @@ const FormComponent = ({form, state}:{form: UseFormReturn<z.infer<typeof emailSc
                                 )
                             }
                         />}
-                        {submitted && <FormStatusMessage {...state} /> }
+                        {submitted && <FormStatusMessage type="error" message={state.message ?? ""} /> }
                 </div>
 }

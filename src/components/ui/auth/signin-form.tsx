@@ -19,13 +19,19 @@ import {
 } from "../form";
 import { Input } from "../input";
 import { Separator } from "@radix-ui/react-dropdown-menu";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Socials } from "./socials";
 import { toast } from "../use-toast";
 import { credentialLogin } from "@/actions/login";
-import { SpinnerGap } from "@phosphor-icons/react";
+import { DotsThree, SpinnerGap } from "@phosphor-icons/react";
+import { FormStatusMessage } from "./form-message";
+import { useFormStatus } from "react-dom";
+import { resendVerification } from "@/actions/sign-up";
 
 export const SignInForm = () => {
+  const [email, setEmail] = useState<string | undefined>()
+  const resendVerificationWithEmail = resendVerification.bind(null, email)
+
   const form = useForm<z.infer<typeof existingUserSchema>>({
     defaultValues: {
       email: "",
@@ -35,7 +41,9 @@ export const SignInForm = () => {
   });
 
   async function onSubmit(data: z.infer<typeof existingUserSchema>) {
+    setEmail(data.email)
     await credentialLogin(data).then((state) => {
+      if(state) {
       if (state.errors?.email) {
         form.setError("email", { message: state.errors.email.join() });
       } else if (state.errors?.password) {
@@ -43,19 +51,11 @@ export const SignInForm = () => {
       } else {
         form.setError("root", { message: state.message });
       }
-    });
+    }});
   }
 
-  const error = form.formState.errors.root;
+  const status = form.formState.errors.root;
   const pending = form.formState.isSubmitting;
-
-  useEffect(() => {
-    error &&
-      toast({
-        variant: error.message?.includes("successful") ? "default" : "destructive",
-        title: error.message,
-      });
-  }, [error]);
 
   return (
     <Card className="mx-auto my-auto p-2 space-y-2 w-96">
@@ -100,7 +100,7 @@ export const SignInForm = () => {
                 </FormItem>
               )}
             />
-            <FormField
+            {!(status?.message && status.message?.includes("verify")) && <FormField
               name="password"
               control={form.control}
               render={({ field }) => (
@@ -119,27 +119,55 @@ export const SignInForm = () => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
-            <Button
+            />}
+            {!(status?.message && status.message?.includes("verify")) && <Button
               type="submit"
               disabled={pending}
               className="w-full flex justify-center items-center">
               {pending && <SpinnerGap size={20} className="mx-4 animate-spin"/>}
               {`${pending? "Signing In" : "Sign In"}`}
-            </Button>
+            </Button>}
           </form>
+          {(status?.message && status.message?.includes("verify")) && 
+            <form action={resendVerificationWithEmail}
+              className="pt-4">
+              <SendVerificationButton />
+            </form>}
         </Form>
       </CardContent>
-      <CardFooter>
-        <Muted>
+      <CardFooter className="flex flex-col justify-start items-start">
+        {!status?.message && <Muted>
           No account?{" "}
           <Link
             href="/sign-up"
             className="text-secondary font-semibold hover:text-secondary/80">
             Sign up
           </Link>
-        </Muted>
+        </Muted>}
+        {status?.message && (
+          <FormStatusMessage 
+            type={`${status.message?.includes("successful") ? "success" : "error"}`}
+            message={status.message}
+            className="self-center mt-0 justify-center items-center w-full"
+          />
+        )}
       </CardFooter>
     </Card>
   );
 };
+
+// I'm using useformstatus to track form state
+const SendVerificationButton = () => {
+
+  const {pending} = useFormStatus()
+
+  return (
+    <Button
+      type="submit"
+      disabled={pending}
+      className="w-full flex justify-center items-center">
+      {pending && <SpinnerGap size={20} className="mx-4 animate-spin"/>}
+      {`${pending? "Sending" : "Send Verification"}`}
+    </Button>
+  )
+}

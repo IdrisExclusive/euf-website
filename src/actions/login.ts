@@ -3,7 +3,7 @@
 import { existingUserSchema } from "@/db/schema"
 import { z } from "zod"
 import { type existingUserState } from "@/lib/type"
-import { auth, signIn } from "../../auth"
+import { signIn } from "../../auth"
 import { AuthError } from "next-auth"
 import { getUserByEmail } from "@/db/queries/user"
 
@@ -29,29 +29,27 @@ export const credentialLogin = async (data: z.infer<typeof existingUserSchema>):
         }
     }
 
-
-
     try{
         await signIn("credentials", {email, password})
     } catch (error) {
         if(error instanceof AuthError) {
             switch (error.type) {
                 case "CredentialsSignin": return {message: "Invalid password", error: true}
-                default: return {message: "Something went wrong!", error: true}
-                
+                case "AccessDenied": return {message: "Please verify your account", error: true}
+                default: return {message: "Something went wrong!", error: true}           
             }
         }
     }
+
    return {
-        message: "Signin successful",
+        message: "Sign-in successful",
         error: false
     }
 }
 
 export const oAuthLogin = async (provider: string) => {
-    await signIn("resend", {email: "ahmad.idris10ia@gmail.com", redirectTo: "/"})
-    // await signIn(provider, {
-    //     redirectTo: "/"
-    // })
+    await signIn(provider, {
+        redirectTo: "/"
+    })
     return {}
 }

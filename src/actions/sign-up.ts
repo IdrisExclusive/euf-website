@@ -47,7 +47,7 @@ export async function signUp(
   const expires = new Date(Date.now() + 1000 * 3600* 24) // expires after 1 day
   cookies().set("email", email, {httpOnly: true, expires})
 
-  await signIn("resend", { email });
+  await signIn("resend", { email, redirectTo: "/" });
   
   return {
     message: "Your account creation was successful",
@@ -55,7 +55,7 @@ export async function signUp(
   };
 }
 
-export async function resendVerification() {
-  const email = cookies().get("email")?.value
-  await signIn("resend", { email })
+export async function resendVerification(email?: string) {
+  if(!email) {email = cookies().get("email")?.value}
+  await signIn("resend", { email, redirectTo: "/" })
 }
