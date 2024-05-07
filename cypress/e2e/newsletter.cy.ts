@@ -8,21 +8,21 @@ describe( "test newsletter subscription", () => {
         cy.visit("/")
     })
 
-    it("subscribes with a wrong email", () => {
-        cy.getByData("email-input").type(wrongEmail)
-        cy.getByData("subscribe-button").click()
+    it("subscribes1 with a wrong email", () => {
+        cy.findByTestId("email-input").type(wrongEmail, {delay: 200})
+        cy.findByTestId("subscribe-button").click()
         cy.getByData("message-output").should("exist").contains("check email field")
     })
 
     it("subscribes with a new email", () => {
-        cy.getByData("email-input").type(email)
-        cy.getByData("subscribe-button").click()
+        cy.findByTestId("email-input").type(email, {delay: 200})
+        cy.findByTestId("subscribe-button").click()
         cy.getByData("message-output").should("exist").contains("successful")
     })
 
     it("subscribes with an existing email", () => {
-        cy.getByData("email-input").type(email)
-        cy.getByData("subscribe-button").click()
+        cy.findByTestId("email-input").type(email, {delay: 200})
+        cy.findByTestId("subscribe-button").click()
         cy.getByData("message-output").should("exist").contains("email already exists")
     } )
 

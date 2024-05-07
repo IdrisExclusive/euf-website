@@ -20,7 +20,7 @@ export const HeroTexts = ({ className }: { className?: String }) => (
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.2 }}>
-          Empowering Communities, One Project 
+          Empowering Communities, One Project
         </motion.span>
         <AnimatedText
           text={" at a Time!"}
@@ -57,7 +57,7 @@ export const HeroButtons = ({ className }: { className?: String }) => (
       asChild
       variant={"outline"}
       className="h-8 sm:h-9 lg:h-10 text-xs sm:text-sm lg:text-base border-slate-100 hover:text-slate-100">
-      <Link href="/sign-up">Sign up</Link>
+      <Link href="/signup">Sign up</Link>
     </Button>
     <Button
       asChild

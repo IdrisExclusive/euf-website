@@ -3,11 +3,12 @@
 import { existingUserSchema } from "@/db/schema"
 import { z } from "zod"
 import { type existingUserState } from "@/lib/type"
-import { signIn } from "../../auth"
+import { auth, signIn } from "../auth"
 import { AuthError } from "next-auth"
 import { getUserByEmail } from "@/db/queries/user"
+import { SIGNIN_REDIRECT } from "@/routes"
 
-export const credentialLogin = async (data: z.infer<typeof existingUserSchema>): Promise<existingUserState> => {
+export const credentialLogin = async (data: z.infer<typeof existingUserSchema>, callbackUrl?: string | null): Promise<existingUserState> => {
     const validUser = existingUserSchema.safeParse(data)
     
     if(!validUser.success) {
@@ -30,7 +31,7 @@ export const credentialLogin = async (data: z.infer<typeof existingUserSchema>):
     }
 
     try{
-        await signIn("credentials", {email, password})
+        await signIn("credentials", {email, password, redirectTo: callbackUrl || SIGNIN_REDIRECT})
     } catch (error) {
         if(error instanceof AuthError) {
             switch (error.type) {
@@ -38,7 +39,8 @@ export const credentialLogin = async (data: z.infer<typeof existingUserSchema>):
                 case "AccessDenied": return {message: "Please verify your account", error: true}
                 default: return {message: "Something went wrong!", error: true}           
             }
-        }
+        }  
+        throw error
     }
 
    return {
@@ -47,9 +49,14 @@ export const credentialLogin = async (data: z.infer<typeof existingUserSchema>):
     }
 }
 
-export const oAuthLogin = async (provider: string) => {
+export const oAuthLogin = async (provider: string, callbackUrl?: string | null) => {
     await signIn(provider, {
-        redirectTo: "/"
+        redirectTo: callbackUrl || SIGNIN_REDIRECT
     })
     return {}
+}
+
+export const getSession = async () => {
+    const session = await auth()
+    return session
 }

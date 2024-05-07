@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react"
 import { Menu } from "../ui/navigation/menu"
-import { within, userEvent } from "@storybook/testing-library"
+import { within, userEvent } from "@storybook/test"
 import { INITIAL_VIEWPORTS } from "@storybook/addon-viewport"
 
 const meta: Meta<typeof Menu> = {

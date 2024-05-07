@@ -5,11 +5,10 @@ import { emailSchema, newsletterEmails } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { type emailState } from "@/lib/type";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
-export const saveEmail = async (prevState: emailState, formData: FormData) => {
-  const validatedFields = emailSchema.safeParse({
-    email: formData.get("email"),
-  });
+export const saveEmail = async (data: z.infer<typeof emailSchema>) : Promise<emailState> => {
+  const validatedFields = emailSchema.safeParse(data);
 
   if (!validatedFields.success) {
     return {

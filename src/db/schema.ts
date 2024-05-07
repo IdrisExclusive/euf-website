@@ -23,7 +23,7 @@ export const newsletterEmails = pgTable("newsletter_emails", {
 });
 
 export const emailSchema = createInsertSchema(newsletterEmails, {
-  email: z.string().email({ message: "email is not vaild" }),
+  email: z.string().email({ message: "Email is not vaild" }),
 }).omit({ id: true, createdAt: true });
 
 export const users = pgTable("user", {

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { H2, Muted, P } from "@/components/ui/typography";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useFormStatus } from "react-dom";
 import { useTimer } from "react-timer-hook";
@@ -18,8 +19,12 @@ import { useTimer } from "react-timer-hook";
 export const VerifyEmailCard = () => {
   const [showResend, setShowResend] = useState(false);
 
-  
-  const resendVerificationWithEmail = resendVerification.bind(null, undefined)
+  const callbackUrl = useSearchParams().get("callbackUrl");
+  const resendVerificationWithEmail = resendVerification.bind(
+    null,
+    undefined,
+    callbackUrl
+  );
 
   const expiry = new Date(Date.now() + 1000 * 60);
   const { seconds, minutes } = useTimer({
@@ -55,10 +60,10 @@ export const VerifyEmailCard = () => {
           {!showResend && (
             <Muted>{`${minutes}:${String(seconds).padStart(2, "0")}`}</Muted>
           )}
-          {(showResend) && (
+          {showResend && (
             <form action={resendVerificationWithEmail}>
-                <ResendButton />
-              </form>
+              <ResendButton />
+            </form>
           )}
         </CardFooter>
       </Card>
@@ -71,20 +76,24 @@ const ResendButton = () => {
   const { pending } = useFormStatus();
   return (
     <>
-      {!pending && 
-      <div className="flex justify-center items-center">
-        <Muted className="text-xs md:text-sm">
-          Didn't receive an email?
-        </Muted>
-        <Button
-          type="submit"
-          variant={"link"}
-          // disabled={pending}
-          className="text-xs md:text-sm shadow-none hover:no-underline text-secondary hover:text-secondary/80 p-2">
-          resend
-        </Button>
-      </div>}
-      {pending && <FormStatusMessage type="progress" message="Sending verification email" />}
+      {!pending && (
+        <div className="flex justify-center items-center">
+          <Muted className="text-xs md:text-sm">Didn't receive an email?</Muted>
+          <Button
+            type="submit"
+            variant={"link"}
+            // disabled={pending}
+            className="text-xs md:text-sm shadow-none hover:no-underline text-secondary hover:text-secondary/80 p-2">
+            resend
+          </Button>
+        </div>
+      )}
+      {pending && (
+        <FormStatusMessage
+          type="progress"
+          message="Sending verification email"
+        />
+      )}
     </>
   );
 };

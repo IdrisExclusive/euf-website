@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardFooter, CardHeader } from "../card";
 import Image from "next/image";
-import { H2, H4, Muted, P, Small } from "../typography";
+import { H4, Muted, P, Small } from "../typography";
 import { Button } from "../button";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -19,18 +19,23 @@ import {
 } from "../form";
 import { Input } from "../input";
 import { Separator } from "@radix-ui/react-dropdown-menu";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Socials } from "./socials";
-import { toast } from "../use-toast";
 import { credentialLogin } from "@/actions/login";
-import { DotsThree, SpinnerGap } from "@phosphor-icons/react";
+import { SpinnerGap } from "@phosphor-icons/react";
 import { FormStatusMessage } from "./form-message";
 import { useFormStatus } from "react-dom";
 import { resendVerification } from "@/actions/sign-up";
+import { useSearchParams } from "next/navigation";
 
 export const SignInForm = () => {
-  const [email, setEmail] = useState<string | undefined>()
-  const resendVerificationWithEmail = resendVerification.bind(null, email)
+  const [email, setEmail] = useState<string | undefined>();
+  const callbackUrl = useSearchParams().get("callbackUrl");
+  const resendVerificationWithEmail = resendVerification.bind(
+    null,
+    email,
+    callbackUrl
+  );
 
   const form = useForm<z.infer<typeof existingUserSchema>>({
     defaultValues: {
@@ -41,20 +46,21 @@ export const SignInForm = () => {
   });
 
   async function onSubmit(data: z.infer<typeof existingUserSchema>) {
-    setEmail(data.email)
-    await credentialLogin(data).then((state) => {
-      if(state) {
-      if (state.errors?.email) {
-        form.setError("email", { message: state.errors.email.join() });
-      } else if (state.errors?.password) {
-        form.setError("password", { message: state.errors.password.join() });
-      } else {
-        form.setError("root", { message: state.message });
+    setEmail(data.email);
+    await credentialLogin(data, callbackUrl).then((state) => {
+      if (state) {
+        if (state.errors?.email) {
+          form.setError("email", { message: state.errors.email.join() });
+        } else if (state.errors?.password) {
+          form.setError("password", { message: state.errors.password.join() });
+        } else {
+          form.setError("root", { message: state.message });
+        }
       }
-    }});
+    });
   }
 
-  const status = form.formState.errors.root;
+  const formServerState = form.formState.errors.root?.message;
   const pending = form.formState.isSubmitting;
 
   return (
@@ -88,7 +94,9 @@ export const SignInForm = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="after:content-['*'] after:ml-0.5 after:text-destructive">Email</FormLabel>
+                  <FormLabel className="after:content-['*'] after:ml-0.5 after:text-destructive">
+                    Email
+                  </FormLabel>
                   <FormControl>
                     <Input
                       type="email"
@@ -100,54 +108,70 @@ export const SignInForm = () => {
                 </FormItem>
               )}
             />
-            {!(status?.message && status.message?.includes("verify")) && <FormField
-              name="password"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="flex flex-row justify-between items-center">
-                    <span className="after:content-['*'] after:ml-0.5 after:text-destructive">Password</span>
-                    <Link
-                      href="#"
-                      className="text-xs text-secondary hover:text-secondary/80 my-[1px]">
-                      Forgot password?
-                    </Link>{" "}
-                  </FormLabel>
-                  <FormControl>
-                    <Input type="password" placeholder="********" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />}
-            {!(status?.message && status.message?.includes("verify")) && <Button
-              type="submit"
-              disabled={pending}
-              className="w-full flex justify-center items-center">
-              {pending && <SpinnerGap size={20} className="mx-4 animate-spin"/>}
-              {`${pending? "Signing In" : "Sign In"}`}
-            </Button>}
+            {!(formServerState && formServerState.includes("verify")) && (
+              <FormField
+                name="password"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex flex-row justify-between items-center">
+                      <span className="after:content-['*'] after:ml-0.5 after:text-destructive">
+                        Password
+                      </span>
+                      <Link
+                        href="#"
+                        className="text-xs text-muted hover:text-muted/80 my-[1px]">
+                        Forgot password?
+                      </Link>{" "}
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="********"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+            {!(formServerState && formServerState.includes("verify")) && (
+              <Button
+                type="submit"
+                disabled={pending}
+                className="w-full flex justify-center items-center">
+                {pending && (
+                  <SpinnerGap size={20} className="mx-4 animate-spin" />
+                )}
+                {`${pending ? "Signing In" : "Sign In"}`}
+              </Button>
+            )}
           </form>
-          {(status?.message && status.message?.includes("verify")) && 
-            <form action={resendVerificationWithEmail}
-              className="pt-4">
+          {formServerState && formServerState.includes("verify") && (
+            <form action={resendVerificationWithEmail} className="pt-4">
               <SendVerificationButton />
-            </form>}
+            </form>
+          )}
         </Form>
       </CardContent>
       <CardFooter className="flex flex-col justify-start items-start">
-        {!status?.message && <Muted>
-          No account?{" "}
-          <Link
-            href="/sign-up"
-            className="text-secondary font-semibold hover:text-secondary/80">
-            Sign up
-          </Link>
-        </Muted>}
-        {status?.message && (
-          <FormStatusMessage 
-            type={`${status.message?.includes("successful") ? "success" : "error"}`}
-            message={status.message}
+        {!formServerState && (
+          <Muted>
+            Don't have an account?{" "}
+            <Link
+              href="/signup"
+              className="text-muted font-semibold hover:text-muted/80">
+              Sign up
+            </Link>
+          </Muted>
+        )}
+        {formServerState && (
+          <FormStatusMessage
+            type={`${
+              formServerState?.includes("successful") ? "success" : "error"
+            }`}
+            message={formServerState}
             className="self-center mt-0 justify-center items-center w-full"
           />
         )}
@@ -158,16 +182,15 @@ export const SignInForm = () => {
 
 // I'm using useformstatus to track form state
 const SendVerificationButton = () => {
-
-  const {pending} = useFormStatus()
+  const { pending } = useFormStatus();
 
   return (
     <Button
       type="submit"
       disabled={pending}
       className="w-full flex justify-center items-center">
-      {pending && <SpinnerGap size={20} className="mx-4 animate-spin"/>}
-      {`${pending? "Sending" : "Send Verification"}`}
+      {pending && <SpinnerGap size={20} className="mx-4 animate-spin" />}
+      {`${pending ? "Sending" : "Send Verification"}`}
     </Button>
-  )
-}
+  );
+};

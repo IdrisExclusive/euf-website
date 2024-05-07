@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardFooter, CardHeader } from "../card";
 import Image from "next/image";
-import { H2, H4, Muted, P, Small } from "../typography";
+import { H4, Muted, P, Small } from "../typography";
 import { Button } from "../button";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -20,11 +20,10 @@ import {
 import { Input } from "../input";
 import { signUp } from "@/actions/sign-up";
 import { Separator } from "@radix-ui/react-dropdown-menu";
-import { useEffect } from "react";
 import { Socials } from "./socials";
-import { toast } from "../use-toast";
 import { SpinnerGap } from "@phosphor-icons/react";
 import { FormStatusMessage } from "./form-message";
+import { useSearchParams } from "next/navigation";
 
 export const SignUpForm = () => {
   const form = useForm<z.infer<typeof newUserFrontEndSchema>>({
@@ -37,27 +36,35 @@ export const SignUpForm = () => {
     resolver: zodResolver(newUserFrontEndSchema),
   });
 
+  const callbackUrl = useSearchParams().get("callbackUrl");
+
   async function onSubmit(data: z.infer<typeof newUserFrontEndSchema>) {
-    await signUp(data).then((state) => {
-      if(state) {{
-        if (state.errors?.name) {
-        form.setError("name", { message: state.errors.name.join() });
-      } else if (state.errors?.email) {
-        form.setError("email", { message: state.errors.email.join() });
-      } else if (state.errors?.password) {
-        form.setError("password", { message: state.errors.password.join() });
-      } else if (state.errors?.confirmPassword) {
-        form.setError("confirmPassword", {
-          message: state.errors.confirmPassword.join(),
-        });
-      } else {
-        form.setError("root", { message: state.message });
-      }}
-    }});
+    await signUp(data, callbackUrl).then((state) => {
+      if (state) {
+        {
+          if (state.errors?.name) {
+            form.setError("name", { message: state.errors.name.join() });
+          } else if (state.errors?.email) {
+            form.setError("email", { message: state.errors.email.join() });
+          } else if (state.errors?.password) {
+            form.setError("password", {
+              message: state.errors.password.join(),
+            });
+          } else if (state.errors?.confirmPassword) {
+            form.setError("confirmPassword", {
+              message: state.errors.confirmPassword.join(),
+            });
+          } else {
+            form.setError("root", { message: state.message });
+          }
+        }
+      }
+    });
   }
 
   const status = form.formState.errors.root;
-  const pending = form.formState.isSubmitting || form.formState.isSubmitSuccessful;
+  const pending =
+    form.formState.isSubmitting || form.formState.isSubmitSuccessful;
 
   return (
     <Card className="mx-auto my-auto p-2 space-y-2 w-96">
@@ -166,17 +173,21 @@ export const SignUpForm = () => {
         </Form>
       </CardContent>
       <CardFooter className="flex flex-col justify-start items-start">
-        {!status?.message && <Muted>
-          Already have an account?{" "}
-          <Link
-            href="/sign-in"
-            className="text-secondary font-semibold hover:text-secondary">
-            Sign in
-          </Link>
-        </Muted>}
+        {!status?.message && (
+          <Muted>
+            Already have an account?{" "}
+            <Link
+              href="/signin"
+              className="text-muted font-semibold hover:text-muted/80">
+              Sign in
+            </Link>
+          </Muted>
+        )}
         {status?.message && (
           <FormStatusMessage
-            type={`${status.message?.includes("Success") ? "success" : "error"}`}
+            type={`${
+              status.message?.includes("Success") ? "success" : "error"
+            }`}
             message={status.message}
             className="self-center mt-0 justify-center items-center w-full"
           />

@@ -5,11 +5,12 @@ import { newUserFrontEndSchema } from "@/db/schema";
 import { newUserState } from "@/lib/type";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
-import { signIn, } from "../../auth";
+import { signIn, } from "../auth";
 import { cookies } from "next/headers";
+import { SIGNIN_REDIRECT } from "@/routes";
 
 export async function signUp(
-  data: z.infer<typeof newUserFrontEndSchema>
+  data: z.infer<typeof newUserFrontEndSchema>, callbackUrl?: string | null
 ): Promise<newUserState> {
   const validNewUser = newUserFrontEndSchema.safeParse(data);
 
@@ -47,7 +48,7 @@ export async function signUp(
   const expires = new Date(Date.now() + 1000 * 3600* 24) // expires after 1 day
   cookies().set("email", email, {httpOnly: true, expires})
 
-  await signIn("resend", { email, redirectTo: "/" });
+  await signIn("resend", { email, redirectTo: callbackUrl || SIGNIN_REDIRECT });
   
   return {
     message: "Your account creation was successful",
@@ -55,7 +56,7 @@ export async function signUp(
   };
 }
 
-export async function resendVerification(email?: string) {
+export async function resendVerification(email?: string, callbackUrl?: string | null) {
   if(!email) {email = cookies().get("email")?.value}
-  await signIn("resend", { email, redirectTo: "/" })
+  await signIn("resend", { email, redirectTo: callbackUrl || SIGNIN_REDIRECT })
 }

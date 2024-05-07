@@ -5,8 +5,7 @@ import Facebook from "next-auth/providers/facebook";
 import Twitter from "next-auth/providers/twitter";
 import Credentials from "next-auth/providers/credentials";
 import Resend from "next-auth/providers/resend";
-
-import * as next from "next-auth/webauthn";
+import { encode, decode } from 'next-auth/jwt';
 
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import db from "@/db/drizzle";
@@ -21,9 +20,9 @@ import sendVerification from "@/actions/send-verification";
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: DrizzleAdapter(db),
   pages: {
-    signIn: "/sign-in",
-    newUser: "/sign-up",
-    verifyRequest: "/verify-email",
+    signIn: "/signin",
+    newUser: "/signup",
+    verifyRequest: "/verify",
   },
   providers: [
     Google,
@@ -38,8 +37,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
     Credentials({
       credentials: {
-        email: {},
-        password: {},
+        email: { label: "email", type: "email" },
+        password: { label: "password", type: "password" },
       },
       authorize: async (credentials) => {
         let user = null;
@@ -47,15 +46,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (userData.success) {
           const { email, password } = userData.data;
           user = await getUserByEmail(email);
-          if (user?.email) {
-            const isPasswordMatch = await bcrypt.compare(
-              password!,
-              user.password
-            );
-            if (isPasswordMatch) {
-              return user;
-            }
-          }
+          if (!user || !user?.password) return null;
+          const isPasswordMatch = await bcrypt.compare(
+            password!,
+            user.password
+          );
+          if (isPasswordMatch) return user;
         }
         return null;
       },
@@ -64,24 +60,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider !== "credentials") return true;
-      
+
       if (user?.email) {
         const userData = await getUserByEmail(user.email);
         if (userData?.emailVerified) return true;
         return false;
       }
-      
+
       return true;
     },
-    authorized({ request, auth }) {
+    authorized({ auth, request}) {
       console.log("request: ", request, "auth: ", auth);
-      const { pathname } = request.nextUrl;
-      // if (pathname === "/middleware-example") return !!auth
+    //   const { pathname } = request.nextUrl;
+    //   // if (pathname === "/middleware-example") return !!auth
       return true;
-    },
-    jwt({ token, trigger, session }) {
-      if (trigger === "update") token.name = session.user.name;
-      return token;
     },
   },
+  session: {strategy: "jwt"},
+  jwt: { encode, decode },
 });

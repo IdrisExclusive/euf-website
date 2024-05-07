@@ -9,7 +9,7 @@ const prompt = Prompt({weight: ["100", "200", "300", "400", "500", "600", "700",
 
 const preview: Preview = {
   parameters: {
-    actions: { argTypesRegex: "^on[A-Z].*" },
+    // actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
       matchers: {
         color: /(background|color)$/i,

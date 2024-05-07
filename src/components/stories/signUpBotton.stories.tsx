@@ -2,15 +2,13 @@ import { Meta, StoryObj } from "@storybook/react";
 import { SignUpBotton } from "../ui/navigation/signUpBotton";
 
 const meta: Meta<typeof SignUpBotton> = {
-    title: "UI/Button/SignUpBotton",
-    component: SignUpBotton,
-    tags: ["autodocs",]
-}
+  title: "UI/Button/SignUpBotton",
+  component: SignUpBotton,
+  tags: ["autodocs"],
+};
 
-export default meta
+export default meta;
 
-type story = StoryObj<typeof SignUpBotton>
+type story = StoryObj<typeof SignUpBotton>;
 
-export const Default: story = {
-
-}
+export const Default: story = {};

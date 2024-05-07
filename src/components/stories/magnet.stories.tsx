@@ -2,15 +2,13 @@ import { Meta, StoryObj } from "@storybook/react";
 import { MagneticComponent } from "../ui/magnet";
 
 const meta: Meta<typeof MagneticComponent> = {
-    title: "UI/MagneticComponent",
-    component: MagneticComponent,
-    tags: ["autodocs",]
-}
+  title: "UI/MagneticComponent",
+  component: MagneticComponent,
+  tags: ["autodocs"],
+};
 
-export default meta
+export default meta;
 
-type story = StoryObj<typeof MagneticComponent>
+type story = StoryObj<typeof MagneticComponent>;
 
-export const Default: story = {
-
-}
+export const Default: story = {};
