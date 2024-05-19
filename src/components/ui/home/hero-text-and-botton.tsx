@@ -53,17 +53,17 @@ export const HeroButtons = ({ className }: { className?: String }) => (
       "flex flex-row justify-center space-x-12 sm:space-x-20 items-center",
       className
     )}>
-    <Button
+    {/* <Button
       asChild
       variant={"outline"}
       className="h-8 sm:h-9 lg:h-10 text-xs sm:text-sm lg:text-base border-slate-100 hover:text-slate-100">
       <Link href="/signup">Sign up</Link>
-    </Button>
+    </Button> */}
     <Button
       asChild
       variant={"cta"}
       size={"lg"}
-      className="h-8 sm:h-9 lg:h-10 text-xs sm:text-sm lg:text-base bg-gradient-to-tr from-accent via-accent/65 to-accent/40 hover:bg-gradient-to-tr hover:from-accent/85 hover:via-accent/70 hover:to-accent/55 transition-all duration-500">
+      className="h-8 w-1/3 sm:h-9 lg:h-10 text-xs sm:text-sm lg:text-base bg-gradient-to-tr from-accent via-accent/65 to-accent/40 hover:bg-gradient-to-tr hover:from-accent/85 hover:via-accent/70 hover:to-accent/55 transition-all duration-500">
       <Link href="#">Donate Now</Link>
     </Button>
   </motion.div>

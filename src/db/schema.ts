@@ -7,11 +7,11 @@ import {
   text,
   timestamp,
   uuid,
+  numeric,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
-
-const role: [string, ...string[]] = ["ADMIN", "EXCO", "MEMBER"]
+import { role, expenseTypes, donationTypes } from "../lib/data/enums";
 
 export const newsletterEmails = pgTable("newsletter_emails", {
   id: uuid("id")
@@ -19,7 +19,9 @@ export const newsletterEmails = pgTable("newsletter_emails", {
     .primaryKey()
     .default(sql`gen_random_uuid()`),
   email: text("email").notNull().unique(),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
+  createdAt: timestamp("created_at", { mode: "date", withTimezone: true })
+    .notNull()
+    .defaultNow(),
 });
 
 export const emailSchema = createInsertSchema(newsletterEmails, {
@@ -33,7 +35,10 @@ export const users = pgTable("user", {
     .default(sql`gen_random_uuid()`),
   name: text("name").notNull().default(""),
   email: text("email").unique().notNull(),
-  emailVerified: timestamp("emailVerified", { mode: "date" }),
+  emailVerified: timestamp("emailVerified", {
+    mode: "date",
+    withTimezone: true,
+  }),
   password: text("password").notNull().default(""),
   role: text("role", { enum: role }).default("MEMBER"),
   image: text("image"),
@@ -42,11 +47,11 @@ export const users = pgTable("user", {
 export const existingUserSchema = createInsertSchema(users, {
   email: z
     .string({ required_error: "Please enter your email" })
-    .min(1, {message: "Please enter your email"})
+    .min(1, { message: "Please enter your email" })
     .email({ message: "Please enter a valid email" }),
   password: z
     .string({ required_error: "Please set your password" })
-    .min(1, {message: "Please enter your password"}),
+    .min(1, { message: "Please enter your password" }),
 }).omit({
   id: true,
   // name: true,
@@ -56,13 +61,15 @@ export const existingUserSchema = createInsertSchema(users, {
 });
 
 export const newUserBackEndSchema = createSelectSchema(users, {
-  name: z.string({ required_error: "Please provide your name" }).min(1, {message: "Please provide your name"}),
+  name: z
+    .string({ required_error: "Please provide your name" })
+    .min(1, { message: "Please provide your name" }),
   email: z
     .string({ required_error: "Please enter your email" })
     .email({ message: "Please enter a valid email" }),
   password: z
     .string({ required_error: "Please set your password" })
-    .min(1, {message: "Please enter your password"})
+    .min(1, { message: "Please enter your password" })
     .min(8, { message: "Password cannot be less than 8 characters" })
     .regex(/(?=.*[A-Z])\b/, {
       message: "Password must include an uppercase character",
@@ -70,22 +77,24 @@ export const newUserBackEndSchema = createSelectSchema(users, {
     .regex(/(?=.*[@$!%*?&,./-=+;:'"|#^~])/, {
       message: "Password must include one special character",
     }),
-    role: z.enum(role).optional()
-})
-  .omit({
-    id: true,
-    // emailVerified: true,
-    // image: true,
-  })
+  role: z.enum(role).optional(),
+});
+// .omit({
+// id: true,
+// emailVerified: true,
+// image: true,
+// });
 
 export const newUserFrontEndSchema = createInsertSchema(users, {
-  name: z.string({ required_error: "Please provide your name" }).min(1, {message: "Please provide your name"}),
+  name: z
+    .string({ required_error: "Please provide your name" })
+    .min(1, { message: "Please provide your name" }),
   email: z
     .string({ required_error: "Please enter your email" })
     .email({ message: "Please enter a valid email" }),
   password: z
     .string({ required_error: "Please set your password" })
-    .min(1, {message: "Please enter your password"})
+    .min(1, { message: "Please enter your password" })
     .min(8, { message: "Password cannot be less than 8 characters" })
     .regex(/(?=.*[A-Z])\b/, {
       message: "Password must include an uppercase character",
@@ -103,7 +112,7 @@ export const newUserFrontEndSchema = createInsertSchema(users, {
   .extend({
     confirmPassword: z
       .string({ required_error: "Please set your password" })
-      .min(1, {message: "Please confirm your password"})
+      .min(1, { message: "Please confirm your password" })
       .min(8, { message: "Password cannot be less than 8 characters" })
       .regex(/(?=.*[A-Z])/, {
         message: "Password must include an uppercase character",
@@ -112,16 +121,16 @@ export const newUserFrontEndSchema = createInsertSchema(users, {
         message: "Password must include one special character",
       }),
   })
-  .refine((data) => data.password === data.confirmPassword,
-      {
-        message: "Passwords don't match",
-        path: ["confirmPassword",],
-      }
-  );
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
   sessions: many(sessions),
+  donations: many(donations),
+  expenses: many(expenses),
 }));
 
 export const accounts = pgTable(
@@ -156,14 +165,11 @@ export const accountsRelations = relations(accounts, ({ one }) => ({
 }));
 
 export const sessions = pgTable("session", {
-  id: uuid("id")
-    .notNull()
-    .default(sql`gen_random_uuid()`),
   sessionToken: text("sessionToken").notNull().primaryKey(),
   userId: uuid("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  expires: timestamp("expires", { mode: "date" }).notNull(),
+  expires: timestamp("expires", { mode: "date", withTimezone: true }).notNull(),
 });
 
 export const sessionsRelations = relations(sessions, ({ one }) => ({
@@ -178,9 +184,77 @@ export const verificationTokens = pgTable(
   {
     identifier: text("identifier").notNull(),
     token: text("token").notNull(),
-    expires: timestamp("expires", { mode: "date" }).notNull(),
+    expires: timestamp("expires", {
+      mode: "date",
+      withTimezone: true,
+    }).notNull(),
   },
   (vt) => ({
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
   })
 );
+
+export const donations = pgTable("donations", {
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  donated_by: uuid("donated_by")
+    .references(() => users.id, { onDelete: "set default" })
+    .default("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
+  currency: text("currency"),
+  amount: numeric("amount", { precision: 23, scale: 2 }).default("0.00"),
+  donation_type: text("donation_type", { enum: donationTypes }).default(
+    "General Donation"
+  ),
+  created_at: timestamp("created_at", {
+    mode: "date",
+    withTimezone: true,
+  }).defaultNow(),
+  changed_at: timestamp("changed_at", {
+    mode: "date",
+    withTimezone: true,
+  }),
+  changed_by: uuid("changed_by")
+    .references(() => users.id, {
+      onDelete: "set default",
+    })
+    .default("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
+});
+
+export const donationsRelations = relations(donations, ({ one }) => ({
+  user: one(users, {
+    fields: [donations.donated_by, donations.changed_by],
+    references: [users.id, users.id],
+  }),
+}));
+
+export const expenses = pgTable("expenses", {
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  expense_type: text("expense_type", { enum: expenseTypes }).default(
+    "Bank Charges"
+  ),
+  currency: text("currency"),
+  amount: numeric("amount", { precision: 23, scale: 2 }).default("0.00"),
+  created_at: timestamp("created_at", {
+    mode: "date",
+    withTimezone: true,
+  }).defaultNow(),
+  changed_at: timestamp("changed_at", {
+    mode: "date",
+    withTimezone: true,
+  }).defaultNow(),
+  changed_by: uuid("changed_by")
+    .references(() => users.id, {
+      onDelete: "set default",
+    })
+    .default("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
+});
+
+export const expensesRelations = relations(expenses, ({ one }) => ({
+  user: one(users, {
+    fields: [expenses.changed_by],
+    references: [users.id],
+  }),
+}));

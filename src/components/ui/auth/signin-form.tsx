@@ -61,7 +61,8 @@ export const SignInForm = () => {
   }
 
   const formServerState = form.formState.errors.root?.message;
-  const pending = form.formState.isSubmitting;
+  const pending =
+    form.formState.isSubmitting || form.formState.isSubmitSuccessful;
 
   return (
     <Card className="mx-auto my-auto p-2 space-y-2 w-96">

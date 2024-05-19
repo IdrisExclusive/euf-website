@@ -5,10 +5,10 @@ import Facebook from "next-auth/providers/facebook";
 import Twitter from "next-auth/providers/twitter";
 import Credentials from "next-auth/providers/credentials";
 import Resend from "next-auth/providers/resend";
-import { encode, decode } from 'next-auth/jwt';
+import { encode, decode } from "next-auth/jwt";
 
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import db from "@/db/drizzle";
+import db from "./db/drizzle";
 
 import bcrypt from "bcryptjs";
 
@@ -69,13 +69,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       return true;
     },
-    authorized({ auth, request}) {
+    authorized({ auth, request }) {
       console.log("request: ", request, "auth: ", auth);
-    //   const { pathname } = request.nextUrl;
-    //   // if (pathname === "/middleware-example") return !!auth
+      //   const { pathname } = request.nextUrl;
+      //   // if (pathname === "/middleware-example") return !!auth
       return true;
     },
   },
-  session: {strategy: "jwt"},
+  session: { strategy: "jwt" },
   jwt: { encode, decode },
 });

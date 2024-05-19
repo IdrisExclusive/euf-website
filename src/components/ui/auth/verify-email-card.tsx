@@ -36,8 +36,8 @@ export const VerifyEmailCard = () => {
   });
 
   return (
-    <div className="flex w-full h-screen mx-auto ">
-      <Card className="my-auto w-80 md:w-96 flex flex-col justify-center items-center ">
+    <div className="flex w-full h-screen">
+      <Card className="mx-auto my-auto w-80 md:w-96 flex flex-col justify-center items-center ">
         <CardHeader className="py-0">
           <Image
             src="/socials/email.png"
