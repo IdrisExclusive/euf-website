@@ -1,5 +1,7 @@
-import { ilike, or, and, sum, eq, sql, gte, lte, asc } from "drizzle-orm";
-import db from "../drizzle";
+"use server";
+
+import { ilike, or, and, sum, eq, sql, gte, lte, desc, asc } from "drizzle-orm";
+import { db } from "../drizzle";
 import { donations, expenses, users } from "../schema";
 import {
   firstDayOfCurrentYear,
@@ -11,35 +13,64 @@ const getTotalDonations = async () => {
   return await db
     .select({
       currency: donations.currency,
-      totalDonations: sum(donations.amount),
+      totalDonations: sum(donations.amount).mapWith(Number),
     })
     .from(donations)
     .groupBy(donations.currency);
+};
+
+const getTotalDonationsByCurrency = async (currency: string = "NGN") => {
+  return await db
+    .select({ totalDonations: sum(donations.amount).mapWith(Number) })
+    .from(donations)
+    .where(eq(donations.currency, currency));
+};
+
+const getAllCurrencyForDonations = async () => {
+  return await db
+    .selectDistinct({ currency: donations.currency })
+    .from(donations);
+};
+
+const getTotalDonationsByType = async () => {
+  return await db
+    .select({
+      donationType: donations.donation_type,
+      currency: donations.currency,
+      TotalDonations: sum(donations.amount).mapWith(Number),
+    })
+    .from(donations)
+    .groupBy(donations.donation_type, donations.currency);
 };
 
 const getTotalExpenses = async () => {
   return await db
     .select({
       currency: expenses.currency,
-      totalExpenses: sum(expenses.amount),
+      totalExpenses: sum(expenses.amount).mapWith(Number),
     })
     .from(expenses)
     .groupBy(expenses.currency);
 };
 
-const getTotalExpensesByExpenseType = async () => {
+const getTotalExpensesByType = async () => {
   return await db
     .select({
       expenseType: expenses.expense_type,
       currency: expenses.currency,
-      getTotalExpenses: expenses.amount,
+      TotalExpenses: sum(expenses.amount).mapWith(Number),
     })
     .from(expenses)
     .groupBy(expenses.expense_type, expenses.currency);
 };
 
 const getAllDonationsByOffset = async (limit: number, offset: number) => {
-  return await db.select().from(donations).limit(limit).offset(offset);
+  return await db
+    .select()
+    .from(donations)
+    .limit(limit)
+    .offset(offset)
+    .orderBy(desc(donations.created_at));
 };
 
 const getAllDonationsByQuery = async (
@@ -52,19 +83,19 @@ const getAllDonationsByQuery = async (
     .from(donations)
     .where(
       or(
-        ilike(donations.amount, `%${query}%`),
-        ilike(donations.currency, `%${query}%`),
-        ilike(donations.created_at, `%${query}%`)
+        ilike(donations.donation_type, `%${query}%`),
+        ilike(donations.currency, `%${query}%`)
       )
     )
     .limit(limit)
-    .offset(offset);
+    .offset(offset)
+    .orderBy(desc(donations.created_at));
 };
 
 const getAllDonationsByUsers = async (
   limit: number,
   offset: number,
-  query: string
+  query: string = ""
 ) => {
   return await db
     .select({
@@ -82,18 +113,22 @@ const getAllDonationsByUsers = async (
       or(
         ilike(users.email, `%${query}%`),
         ilike(users.name, `%${query}%`),
-        ilike(donations.amount, `%${query}%`),
         ilike(donations.currency, `%${query}%`),
-        ilike(donations.donation_type, `%${query}%`),
-        ilike(donations.created_at, `%${query}%`)
+        ilike(donations.donation_type, `%${query}%`)
       )
     )
     .limit(limit)
-    .offset(offset);
+    .offset(offset)
+    .orderBy(desc(donations.created_at));
 };
 
 const getAllExpensesByOffset = async (limit: number, offset: number) => {
-  return await db.select().from(expenses).limit(limit).offset(offset);
+  return await db
+    .select()
+    .from(expenses)
+    .limit(limit)
+    .offset(offset)
+    .orderBy(desc(expenses.created_at));
 };
 
 const getAllExpensesByQuery = async (
@@ -106,13 +141,13 @@ const getAllExpensesByQuery = async (
     .from(expenses)
     .where(
       or(
-        ilike(expenses.amount, `%${query}%`),
         ilike(expenses.currency, `%${query}%`),
-        ilike(expenses.created_at, `%${query}%`)
+        ilike(expenses.expense_type, `%${query}%`)
       )
     )
     .limit(limit)
-    .offset(offset);
+    .offset(offset)
+    .orderBy(desc(expenses.created_at));
 };
 
 const getTotalDonationsByDate = async (
@@ -124,7 +159,7 @@ const getTotalDonationsByDate = async (
   return await db
     .select({
       currency: donations.currency,
-      totalDonation: sum(donations.amount),
+      totalDonation: sum(donations.amount).mapWith(Number),
       groupedDate: sql<number>`EXTRACT(${sql.raw(dateGroup)} FROM ${donations.created_at})`,
     })
     .from(donations)
@@ -143,21 +178,38 @@ const getTotalDonationsByDate = async (
     );
 };
 
-const getDonationsByDate = (
+const getDonationsByDate = async (
   startDate: Date = firstDayOfCurrentYear,
   endDate: Date = lastDayOfCurrentYear
 ) => {
   const dateGroup = getDateGroup(startDate, endDate);
+
+  return await db
+    .select()
+    .from(donations)
+    .where(
+      and(
+        gte(donations.created_at, startDate),
+        lte(donations.created_at, endDate)
+      )
+    )
+    .orderBy(
+      desc(sql`EXTRACT(${sql.raw(dateGroup)} FROM ${donations.created_at})`)
+    );
 };
 
 export {
   getTotalDonations,
+  getTotalDonationsByCurrency,
+  getAllCurrencyForDonations,
   getTotalExpenses,
-  getTotalExpensesByExpenseType,
+  getTotalDonationsByType,
+  getTotalExpensesByType,
   getAllDonationsByOffset,
   getAllDonationsByQuery,
   getAllDonationsByUsers,
   getAllExpensesByOffset,
   getAllExpensesByQuery,
   getTotalDonationsByDate,
+  getDonationsByDate,
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { resendVerification } from "@/actions/sign-up";
+import { resendVerification } from "@/actions/auth/sign-up";
 import { FormStatusMessage } from "@/components/ui/auth/form-message";
 import { Button } from "@/components/ui/button";
 import {

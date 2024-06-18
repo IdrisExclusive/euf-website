@@ -1,0 +1,1 @@
+ALTER TABLE "expenses" ALTER COLUMN "changed_at" SET DEFAULT now();

@@ -14,7 +14,7 @@ import { getDivisionCount } from "@/lib/helpers/getDivisionCount";
 import { getRandomAmount } from "@/lib/helpers/getRandomAmount";
 import { describe, it, expect, test } from "vitest";
 
-describe.skip("test random amounts helper", () => {
+describe("test random amounts helper", () => {
   const minAmount = 1000;
   const maxAmount = 100000;
 
@@ -26,7 +26,7 @@ describe.skip("test random amounts helper", () => {
   });
 });
 
-describe.skip("test division count helper", () => {
+describe("test division count helper", () => {
   it("test division count for 10000 by 5000", () => {
     expect(getDivisionCount(10000, 5000)).toEqual(2);
   });
@@ -47,7 +47,7 @@ describe.skip("test division count helper", () => {
   });
 });
 
-describe.skip("test genration of random expense types", () => {
+describe("test genration of random expense types", () => {
   it("tests if it generates correct expense types", () => {
     for (let i = 0; i < 10; i++) {
       expect(expenseTypes).toContain(generateRandomExpenseType());
@@ -95,7 +95,6 @@ describe("test date helpers", () => {
   const firstDayOfMay2024 = new Date("2024-05-01");
   const lastDayOf2024 = new Date("2024-12-31T23:59:59.999Z");
   const lastDayOfMay2024 = new Date("2024-05-31T23:59:59.999Z");
-
   const firstDayof2020 = new Date("2020-01-01");
   const firstDayOfMay2020 = new Date("2020-05-01");
   const lastDayOf2020 = new Date("2020-12-31T23:59:59.999Z");

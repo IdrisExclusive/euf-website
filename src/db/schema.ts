@@ -8,6 +8,7 @@ import {
   timestamp,
   uuid,
   numeric,
+  customType,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -99,6 +100,9 @@ export const newUserFrontEndSchema = createInsertSchema(users, {
     .regex(/(?=.*[A-Z])\b/, {
       message: "Password must include an uppercase character",
     })
+    .regex(/(?=.*\d)/, {
+      message: "Password must include one number",
+    })
     .regex(/(?=.*[@$!%*?&,./-=+;:'"|#^~])/, {
       message: "Password must include one special character",
     }),
@@ -116,6 +120,9 @@ export const newUserFrontEndSchema = createInsertSchema(users, {
       .min(8, { message: "Password cannot be less than 8 characters" })
       .regex(/(?=.*[A-Z])/, {
         message: "Password must include an uppercase character",
+      })
+      .regex(/(?=.*\d)/, {
+        message: "Password must include one number",
       })
       .regex(/(?=.*[@$!%*?&,./-=+;:'"|#^~])/, {
         message: "Password must include one special character",
@@ -194,6 +201,23 @@ export const verificationTokens = pgTable(
   })
 );
 
+// Define a custom numeric type that converts to number
+const customNumeric = customType<{
+  data: number;
+  driverData: string;
+  config: { precision: number; scale: number };
+}>({
+  dataType(config) {
+    return `numeric(${config?.precision}, ${config?.scale})`;
+  },
+  fromDriver(value: string): number {
+    return parseFloat(value); // Convert string to number
+  },
+  toDriver(value: number): string {
+    return value.toString(); // Convert number to string
+  },
+});
+
 export const donations = pgTable("donations", {
   id: uuid("id")
     .primaryKey()
@@ -202,7 +226,7 @@ export const donations = pgTable("donations", {
     .references(() => users.id, { onDelete: "set default" })
     .default("f47ac10b-58cc-4372-a567-0e02b2c3d479"),
   currency: text("currency"),
-  amount: numeric("amount", { precision: 23, scale: 2 }).default("0.00"),
+  amount: customNumeric("amount", { precision: 23, scale: 2 }).default(0),
   donation_type: text("donation_type", { enum: donationTypes }).default(
     "General Donation"
   ),
@@ -236,7 +260,7 @@ export const expenses = pgTable("expenses", {
     "Bank Charges"
   ),
   currency: text("currency"),
-  amount: numeric("amount", { precision: 23, scale: 2 }).default("0.00"),
+  amount: customNumeric("amount", { precision: 23, scale: 2 }).default(0),
   created_at: timestamp("created_at", {
     mode: "date",
     withTimezone: true,

@@ -1,9 +1,10 @@
 import { donations, expenses } from "./schema";
 import { getUserByEmail } from "./queries/user";
-import db from "./drizzle";
+import { db } from "./drizzle";
 import { getRandomAmount } from "@/lib/helpers/getRandomAmount";
 import { faker } from "@faker-js/faker";
 import { generateRandomExpenseType } from "@/lib/helpers/generateRandomExpenseType";
+import { generateRandomDonationType } from "@/lib/helpers/generateRandomDonationType ";
 
 const main = async () => {
   const donationsData: (typeof donations.$inferInsert)[] = [];
@@ -16,8 +17,9 @@ const main = async () => {
   for (let i = 0; i < donationsCnt; i++) {
     donationsData.push({
       donated_by: user?.id,
+      donation_type: generateRandomDonationType(),
       currency: "NGN",
-      amount: getRandomAmount().toFixed(2),
+      amount: Math.round((getRandomAmount() + Number.EPSILON) * 100) / 100, // round to two decimal places with precision
       created_at: faker.date.between({
         from: "2022-01-01T00:00:00.000Z",
         to: "2024-05-12T00:00:00.000Z",
@@ -57,7 +59,7 @@ const main = async () => {
     expensesData.push({
       expense_type: expenseType,
       currency: "NGN",
-      amount: amount.toFixed(2),
+      amount: Math.round((amount + Number.EPSILON) * 100) / 100, // round to two decimal places with precision
       created_at: faker.date.between({
         from: "2022-01-01T00:00:00.000Z",
         to: "2024-05-12T00:00:00.000Z",

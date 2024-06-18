@@ -1,6 +1,6 @@
 import { donationTypes } from "../data/enums";
 
-export const generateRandomExpenseType = () => {
+export const generateRandomDonationType = () => {
   const probabilities = [0.125, 0.005, 0.25, 0.05, 0.05, 0.02, 0.5];
   const cdf = [probabilities[0]];
   for (let i = 1; i < probabilities.length; i++) {

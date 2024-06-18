@@ -8,14 +8,14 @@ import Resend from "next-auth/providers/resend";
 import { encode, decode } from "next-auth/jwt";
 
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import db from "./db/drizzle";
+import { db } from "@/db/drizzle";
 
 import bcrypt from "bcryptjs";
 
 import { getUserByEmail } from "@/db/queries/user";
 import { existingUserSchema } from "@/db/schema";
 
-import sendVerification from "@/actions/send-verification";
+import sendVerification from "@/actions/auth/send-verification";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: DrizzleAdapter(db),

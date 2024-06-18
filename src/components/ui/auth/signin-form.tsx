@@ -21,11 +21,11 @@ import { Input } from "../input";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { useState } from "react";
 import { Socials } from "./socials";
-import { credentialLogin } from "@/actions/login";
+import { credentialLogin } from "@/actions/auth/login";
 import { SpinnerGap } from "@phosphor-icons/react";
 import { FormStatusMessage } from "./form-message";
 import { useFormStatus } from "react-dom";
-import { resendVerification } from "@/actions/sign-up";
+import { resendVerification } from "@/actions/auth/sign-up";
 import { useSearchParams } from "next/navigation";
 
 export const SignInForm = () => {
@@ -99,11 +99,7 @@ export const SignInForm = () => {
                     Email
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="firstlast@example.com"
-                      {...field}
-                    />
+                    <Input placeholder="firstlast@example.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

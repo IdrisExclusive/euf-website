@@ -18,7 +18,7 @@ import {
   FormMessage,
 } from "../form";
 import { Input } from "../input";
-import { signUp } from "@/actions/sign-up";
+import { signUp } from "@/actions/auth/sign-up";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Socials } from "./socials";
 import { SpinnerGap } from "@phosphor-icons/react";
@@ -120,11 +120,7 @@ export const SignUpForm = () => {
                     Email
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="firstlast@example.com"
-                      {...field}
-                    />
+                    <Input placeholder="firstlast@example.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

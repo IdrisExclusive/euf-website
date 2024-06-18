@@ -1,8 +1,5 @@
 import { migrate } from "drizzle-orm/neon-http/migrator";
-import db from "./drizzle";
-import { config } from "dotenv";
-
-config({ path: ".env.local" });
+import { db } from "./drizzle";
 
 const main = async () => {
   try {

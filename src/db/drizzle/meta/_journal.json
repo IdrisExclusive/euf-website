@@ -15,6 +15,13 @@
       "when": 1716069941052,
       "tag": "0001_tough_sugar_man",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1716653507670,
+      "tag": "0002_old_bloodstorm",
+      "breakpoints": true
     }
   ]
 }

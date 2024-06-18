@@ -6,6 +6,4 @@ import { config } from "dotenv";
 // config({ path: ".env.test" });
 
 const sql = neon(process.env.DRIZZLE_DATABASE_URL!);
-const db = drizzle(sql, { schema });
-
-export default db;
+export const db = drizzle(sql, { schema });

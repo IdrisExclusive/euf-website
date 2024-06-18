@@ -11,7 +11,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "../../dropdown-menu";
-import { logout } from "@/actions/logout";
+import { logout } from "@/actions/auth/logout";
 
 export function UserNav() {
   return (

@@ -1,5 +1,7 @@
+"use server";
+
 import { eq } from "drizzle-orm";
-import db from "../drizzle";
+import { db } from "../drizzle";
 import { newUserFrontEndSchema, newUserBackEndSchema, users } from "../schema";
 import { z } from "zod";
 

@@ -1,6 +1,6 @@
 "use server";
 
-import db from "../db/drizzle";
+import { db } from "@/db/drizzle";
 import { emailSchema, newsletterEmails } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { type emailState } from "@/lib/type";

@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Button } from "../button";
 import Image from "next/image";
-import { oAuthLogin } from "@/actions/login";
+import { oAuthLogin } from "@/actions/auth/login";
 import { useSearchParams } from "next/navigation";
 
 export const Socials = ({ className }: { className?: string }) => (
