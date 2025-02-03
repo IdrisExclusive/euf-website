@@ -1,4 +1,4 @@
-import { NavbarWithMenu } from "@/components/ui/navigation/navbar";
+import { NavbarWithMenu } from "@/components/ui/navigation/nav-bar";
 import { menuItems } from "@/lib/data/home-data";
 import type { Metadata } from "next";
 

@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { NavbarWithMenu } from "../ui/navigation/navbar";
+import { NavbarWithMenu } from "../ui/navigation/nav-bar";
 
 const meta: Meta<typeof NavbarWithMenu> = {
   component: NavbarWithMenu,
