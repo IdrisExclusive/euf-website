@@ -36,7 +36,7 @@ export const SignUpForm = () => {
     resolver: zodResolver(newUserFrontEndSchema),
   });
 
-  const callbackUrl = useSearchParams().get("callbackUrl");
+  const callbackUrl = useSearchParams().get("callbackUrl") ?? "";
 
   async function onSubmit(data: z.infer<typeof newUserFrontEndSchema>) {
     await signUp(data, callbackUrl).then((state) => {
@@ -83,7 +83,7 @@ export const SignUpForm = () => {
           <div className="space-y-0">
             <H4 className="border-none">Create your account</H4>
           </div>
-          <Socials />
+          <Socials callbackUrl={callbackUrl} />
         </div>
         <div className="flex w-full h-20 items-center justify-between">
           <Separator className="h-[1px] w-1/4 bg-border" />
@@ -168,17 +168,7 @@ export const SignUpForm = () => {
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex flex-col justify-start items-start">
-        {!status?.message && (
-          <Muted>
-            Already have an account?{" "}
-            <Link
-              href="/signin"
-              className="text-muted font-semibold hover:text-muted/80">
-              Sign in
-            </Link>
-          </Muted>
-        )}
+      <CardFooter className="flex flex-col justify-start items-start space-y-1.5">
         {status?.message && (
           <FormStatusMessage
             type={`${
@@ -188,6 +178,14 @@ export const SignUpForm = () => {
             className="self-center mt-0 justify-center items-center w-full"
           />
         )}
+        <Muted>
+          Already have an account?{" "}
+          <Link
+            href="/signin"
+            className="text-muted font-semibold hover:text-muted/80">
+            Sign in
+          </Link>
+        </Muted>
       </CardFooter>
     </Card>
   );

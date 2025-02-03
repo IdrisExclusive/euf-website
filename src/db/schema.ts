@@ -97,13 +97,13 @@ export const newUserFrontEndSchema = createInsertSchema(users, {
     .string({ required_error: "Please set your password" })
     .min(1, { message: "Please enter your password" })
     .min(8, { message: "Password cannot be less than 8 characters" })
-    .regex(/(?=.*[A-Z])\b/, {
+    .regex(/(?=.*[A-Z])/, {
       message: "Password must include an uppercase character",
     })
     .regex(/(?=.*\d)/, {
       message: "Password must include one number",
     })
-    .regex(/(?=.*[@$!%*?&,./-=+;:'"|#^~])/, {
+    .regex(/(?=.*[!@#$%^&*(),.?":{}|<>~`\\[\];'/\-+=])/, {
       message: "Password must include one special character",
     }),
 })
@@ -124,7 +124,7 @@ export const newUserFrontEndSchema = createInsertSchema(users, {
       .regex(/(?=.*\d)/, {
         message: "Password must include one number",
       })
-      .regex(/(?=.*[@$!%*?&,./-=+;:'"|#^~])/, {
+      .regex(/(?=.*[!@#$%^&*(),.?":{}|<>~`\\[\];'/\-+=])/, {
         message: "Password must include one special character",
       }),
   })

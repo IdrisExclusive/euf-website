@@ -56,7 +56,7 @@
     "react": "^18.2.0",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.51.3",
+    "react-hook-form": "^7.51.5",
     "react-timer-hook": "^3.0.7",
     "recharts": "^2.12.6",
     "resend": "^3.2.0",

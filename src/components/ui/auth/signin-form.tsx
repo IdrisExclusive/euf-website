@@ -19,7 +19,7 @@ import {
 } from "../form";
 import { Input } from "../input";
 import { Separator } from "@radix-ui/react-dropdown-menu";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Socials } from "./socials";
 import { credentialLogin } from "@/actions/auth/login";
 import { SpinnerGap } from "@phosphor-icons/react";
@@ -30,7 +30,7 @@ import { useSearchParams } from "next/navigation";
 
 export const SignInForm = () => {
   const [email, setEmail] = useState<string | undefined>();
-  const callbackUrl = useSearchParams().get("callbackUrl");
+  const callbackUrl = useSearchParams().get("callbackUrl") ?? "";
   const resendVerificationWithEmail = resendVerification.bind(
     null,
     email,
@@ -81,7 +81,9 @@ export const SignInForm = () => {
           <div className="space-y-0">
             <H4 className="border-none">Signin to your account</H4>
           </div>
-          <Socials />
+          {/* <Suspense fallback={<div>loading...</div>}> */}
+          <Socials callbackUrl={callbackUrl} />
+          {/* </Suspense> */}
         </div>
         <div className="flex w-full h-20 items-center justify-between">
           <Separator className="h-[1px] w-1/4 bg-border" />
@@ -147,22 +149,14 @@ export const SignInForm = () => {
           </form>
           {formServerState && formServerState.includes("verify") && (
             <form action={resendVerificationWithEmail} className="pt-4">
+              {/* <Suspense fallback={<div>loading...</div>}> */}
               <SendVerificationButton />
+              {/* </Suspense> */}
             </form>
           )}
         </Form>
       </CardContent>
       <CardFooter className="flex flex-col justify-start items-start">
-        {!formServerState && (
-          <Muted>
-            Don't have an account?{" "}
-            <Link
-              href="/signup"
-              className="text-muted font-semibold hover:text-muted/80">
-              Sign up
-            </Link>
-          </Muted>
-        )}
         {formServerState && (
           <FormStatusMessage
             type={`${
@@ -172,6 +166,14 @@ export const SignInForm = () => {
             className="self-center mt-0 justify-center items-center w-full"
           />
         )}
+        <Muted>
+          Don't have an account?{" "}
+          <Link
+            href="/signup"
+            className="text-muted font-semibold hover:text-muted/80">
+            Sign up
+          </Link>
+        </Muted>
       </CardFooter>
     </Card>
   );

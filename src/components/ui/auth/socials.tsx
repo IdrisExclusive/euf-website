@@ -4,24 +4,26 @@ import Image from "next/image";
 import { oAuthLogin } from "@/actions/auth/login";
 import { useSearchParams } from "next/navigation";
 
-export const Socials = ({ className }: { className?: string }) => (
+export const Socials = ({ callbackUrl, className }: { callbackUrl: string | null; className?: string }) => (
   <div
     className={cn(
       "flex flex-row gap-8 justify-evenly items-center",
       className
     )}>
-    <SocialButton logo="/socials/google.png" name="google" provider="google" />
+    <SocialButton logo="/socials/google.png" name="google" provider="google" callbackUrl={callbackUrl} />
     <div>
       <SocialButton
         logo="/socials/twitter.png"
         name="twitter"
         provider="twitter"
+        callbackUrl={callbackUrl}
       />
     </div>
     <SocialButton
       logo="/socials/facebook.png"
       name="facebook"
       provider="facebook"
+      callbackUrl={callbackUrl}
     />
   </div>
 );
@@ -30,6 +32,7 @@ interface SocialButtonProps {
   logo: string;
   name: string;
   provider: string;
+  callbackUrl: string | null;
   className?: string;
 }
 
@@ -37,10 +40,10 @@ const SocialButton = ({
   logo,
   name,
   provider = "google",
+  callbackUrl,
   className,
 }: SocialButtonProps) => {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl");
   const oAuthLoginWithProvider = oAuthLogin.bind(null, provider, callbackUrl);
 
   return (

@@ -19,7 +19,7 @@ import { useTimer } from "react-timer-hook";
 export const VerifyEmailCard = () => {
   const [showResend, setShowResend] = useState(false);
 
-  const callbackUrl = useSearchParams().get("callbackUrl");
+  const callbackUrl = useSearchParams().get("callbackUrl") ?? "";
   const resendVerificationWithEmail = resendVerification.bind(
     null,
     undefined,

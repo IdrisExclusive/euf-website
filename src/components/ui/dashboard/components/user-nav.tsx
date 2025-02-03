@@ -1,4 +1,3 @@
-import { signOut } from "../../../../auth";
 import { Avatar, AvatarFallback, AvatarImage } from "../../avatar";
 import { Button } from "../../button";
 import {
