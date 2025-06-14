@@ -9,7 +9,8 @@ import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
 export const Reviews = () => {
-  const [widthDiff, setWidthDiff] = useState<number>(0);
+  const [widthDiff, setWidthDiff] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   const calculateWidthDiff = () => {
     if (window.innerWidth < 1800) {
@@ -18,6 +19,7 @@ export const Reviews = () => {
           ? 1800 - window.innerWidth
           : 2000 - window.innerWidth
       );
+      setIsMobile(window.innerWidth < 940);
     }
   };
 
@@ -40,15 +42,15 @@ export const Reviews = () => {
         }}
         drag
         dragConstraints={{ top: 0, bottom: 0, left: -800, right: 800 }}
-        className="p-1 grid grid-rows-4 grid-cols-22 md:grid-cols-6 md:grid-rows-2 grid-flow-row w-[2000px] md:w-[1800px] gap-2 md:gap-4 lg:gap-8">
+        className="p-1 grid grid-cols-7 md:grid-cols-6 md:grid-rows-2 grid-flow-row w-[2000px] md:w-[1800px] gap-2 md:gap-4 lg:gap-8">
         <ReviewCard
           image="/reviews/Umar.jpg"
           name="Umar Abdullah"
           profession="Business Owner"
           comment="I'm continually impressed by the innovation and effectiveness of your programs. 
                     Thank you for continuously striving to improve and adapt to better serve those you support."
-          isLarge={false}
-          className="col-span-3 row-span-3 md:col-span-1 md:row-span-1 md:col-start-1 md:row-start-1"
+          isLarge={isMobile}
+          className="md:col-span-1 md:row-span-1 md:col-start-1 md:row-start-1"
         />
         <ReviewCard
           image="/reviews/Khadija.jpg"
@@ -56,8 +58,8 @@ export const Reviews = () => {
           profession="Teacher"
           comment="Your transparency and commitment to accountability are commendable. 
                     I trust that my donation is making a real impact where it's needed most."
-          isLarge={false}
-          className="col-span-3 row-span-3 md:col-span-1 md:row-span-1 md:col-start-2 md:row-start-1"
+          isLarge={isMobile}
+          className="md:col-span-1 md:row-span-1 md:col-start-2 md:row-start-1"
         />
         <ReviewCard
           image="/reviews/Zaid.png"
@@ -65,8 +67,8 @@ export const Reviews = () => {
           profession="Software Engineer"
           comment="It's heartening to see the tangible results of your efforts. 
                     Your dedication to serving others is a testament to the power of compassion and generosity."
-          isLarge={false}
-          className="col-span-3 row-span-3 md:col-span-1 md:row-span-1 md:col-start-2 md:row-start-2"
+          isLarge={isMobile}
+          className="md:col-span-1 md:row-span-1 md:col-start-2 md:row-start-2"
         />
         <ReviewCard
           image="/reviews/Aisha.jpg"
@@ -76,7 +78,7 @@ export const Reviews = () => {
                     You're not just providing assistance; 
                     you're restoring dignity and empowering individuals to thrive"
           isLarge={true}
-          className="md:col-start-3 md:row-start-1 col-span-4 row-span-4 md:col-span-2 md:row-span-2 "
+          className="md:col-start-3 md:row-start-1 md:col-span-2 md:row-span-2 "
         />
         <ReviewCard
           image="/reviews/Zainab.jpg"
@@ -84,8 +86,8 @@ export const Reviews = () => {
           profession="Marketing Manager"
           comment="Thank you for providing a beacon of hope to those in need. 
                     Your dedication to making a difference is truly inspiring."
-          isLarge={false}
-          className="col-span-3 row-span-3 md:col-span-1 md:row-span-1 md:col-start-5 md:row-start-1"
+          isLarge={isMobile}
+          className="md:col-span-1 md:row-span-1 md:col-start-5 md:row-start-1"
         />
         <ReviewCard
           image="/reviews/Ibrahim.webp"
@@ -93,8 +95,8 @@ export const Reviews = () => {
           profession="Financial Analyst"
           comment="I am grateful to be a part of such a meaningful cause. 
                     Keep up the incredible work in transforming lives and communities."
-          isLarge={false}
-          className="col-span-3 row-span-3 md:col-span-1 md:row-span-1 md:col-start-5 md:row-start-2"
+          isLarge={isMobile}
+          className="md:col-span-1 md:row-span-1 md:col-start-5 md:row-start-2"
         />
         <ReviewCard
           image="/reviews/Hafsah.jpg"
@@ -102,8 +104,8 @@ export const Reviews = () => {
           profession="Human Resources Manager"
           comment="Your work embodies the true spirit of charity and selflessness. 
                     Thank you for being a beacon of light in a world that can often feel dark and uncertain."
-          isLarge={false}
-          className="col-span-3 row-span-3 md:col-span-1 md:row-span-1 md:col-start-6 md:row-start-1"
+          isLarge={isMobile}
+          className="md:col-span-1 md:row-span-1 md:col-start-6 md:row-start-1"
         />
       </motion.div>
     </div>
@@ -180,7 +182,7 @@ const ReviewCard = ({
         className={cn(
           "z-10 border-l-0 pl-0 mt-0 text-pretty",
           isLarge
-            ? "text-base md:text-lg lg:text-xl py-5 md:py-10 indent-8 md:indent-12"
+            ? "text-base md:text-lg lg:text-xl py-5 md:py-10 indent-4 md:indent-8"
             : "text-xs md:text-sm p-2 indent-4"
         )}>
         {comment}
