@@ -27,8 +27,8 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
           <Toaster />
-          <div className="-z-20 w-[400px] h-[400px] rounded-full bg-gradient-to-bl from-primary/60 to-secondary/80 blur-[150px] absolute top-10 mx-auto"></div>
-          <div className="-z-20 w-[400px] h-[400px] rounded-full bg-gradient-to-br from-primary/60 to-secondary/80 blur-[150px] absolute top-[300px] right-0"></div>
+          {/* <div className="-z-20 w-[400px] h-[400px] rounded-full bg-gradient-to-bl from-primary/60 to-secondary/80 blur-[150px] absolute top-10 mx-auto"></div>
+          <div className="-z-20 w-[400px] h-[400px] rounded-full bg-gradient-to-br from-primary/60 to-secondary/80 blur-[150px] absolute top-[300px] right-0"></div> */}
         </ThemeProvider>
       </body>
     </html>

@@ -11,7 +11,7 @@ export const UserProfile = async () => {
   return (
     <div>
       <div
-        className="flex justify-center gap-8 items-center w-20 h-20 text-slate-200 rounded-full my-40 mx-auto"
+        className="flex justify-center gap-8 items-center w-20 h-20 text-zinc-200 rounded-full my-40 mx-auto"
         style={{ background: color }}>
         <H3>
           {name?.split(" ")[0]?.charAt(0) + name?.split(" ")[1]?.charAt(0)}

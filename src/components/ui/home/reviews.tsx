@@ -14,11 +14,9 @@ export const Reviews = () => {
   const calculateWidthDiff = () => {
     if (window.innerWidth < 1800) {
       setWidthDiff(
-        window.innerWidth > 768
-          ? 1900 - window.innerWidth
-          : window.innerWidth > 768
-          ? 1200 - window.innerWidth
-          : 800 - window.innerWidth
+        window.innerWidth > 940
+          ? 1800 - window.innerWidth
+          : 2000 - window.innerWidth
       );
     }
   };
@@ -30,7 +28,7 @@ export const Reviews = () => {
   }, [widthDiff]);
 
   return (
-    <div className="flex flex-col gap-16 justify-center w-screen h-fit items-center overflow-hidden">
+    <div className="px-8 mx-auto flex flex-col gap-8 lg:gap-16 justify-center w-screen text-center items-center overflow-hidden">
       <H2 className="border-none">What Our Donors Say About Us</H2>
       <motion.div
         whileInView={{ x: [-widthDiff / 2, widthDiff / 2] }}
@@ -41,8 +39,8 @@ export const Reviews = () => {
           repeatType: "mirror",
         }}
         drag
-        dragConstraints={{ top: 0, bottom: 0, left: -250, right: 250 }}
-        className="grid grid-cols-4 grid-rows-4 md:grid-cols-6 md:grid-rows-2 grid-flow-row w-[800px] sm:w-[1200px] md:w-[1800px] h-fit gap-4 md:gap-8">
+        dragConstraints={{ top: 0, bottom: 0, left: -800, right: 800 }}
+        className="p-1 grid grid-rows-4 grid-cols-22 md:grid-cols-6 md:grid-rows-2 grid-flow-row w-[2000px] md:w-[1800px] gap-2 md:gap-4 lg:gap-8">
         <ReviewCard
           image="/reviews/Umar.jpg"
           name="Umar Abdullah"
@@ -50,16 +48,16 @@ export const Reviews = () => {
           comment="I'm continually impressed by the innovation and effectiveness of your programs. 
                     Thank you for continuously striving to improve and adapt to better serve those you support."
           isLarge={false}
-          className="col-start-1 row-start-2 md:row-start-1 col-span-1 row-span-1"
+          className="col-span-3 row-span-3 md:col-span-1 md:row-span-1 md:col-start-1 md:row-start-1"
         />
         <ReviewCard
-          image="/reviews/Khadijah.avif"
+          image="/reviews/Khadija.jpg"
           name="Khadijah Basma"
           profession="Teacher"
           comment="Your transparency and commitment to accountability are commendable. 
                     I trust that my donation is making a real impact where it's needed most."
           isLarge={false}
-          className="col-start-2 row-start-1 col-span-1 row-span-1 rounded-xl"
+          className="col-span-3 row-span-3 md:col-span-1 md:row-span-1 md:col-start-2 md:row-start-1"
         />
         <ReviewCard
           image="/reviews/Zaid.png"
@@ -68,7 +66,7 @@ export const Reviews = () => {
           comment="It's heartening to see the tangible results of your efforts. 
                     Your dedication to serving others is a testament to the power of compassion and generosity."
           isLarge={false}
-          className="col-start-2 row-start-4 md:row-start-2 col-span-1 row-span-1 rounded-xl"
+          className="col-span-3 row-span-3 md:col-span-1 md:row-span-1 md:col-start-2 md:row-start-2"
         />
         <ReviewCard
           image="/reviews/Aisha.jpg"
@@ -78,7 +76,7 @@ export const Reviews = () => {
                     You're not just providing assistance; 
                     you're restoring dignity and empowering individuals to thrive"
           isLarge={true}
-          className="col-start-2 md:col-start-3 row-start-2 md:row-start-1 col-span-2 row-span-2 "
+          className="md:col-start-3 md:row-start-1 col-span-4 row-span-4 md:col-span-2 md:row-span-2 "
         />
         <ReviewCard
           image="/reviews/Zainab.jpg"
@@ -87,7 +85,7 @@ export const Reviews = () => {
           comment="Thank you for providing a beacon of hope to those in need. 
                     Your dedication to making a difference is truly inspiring."
           isLarge={false}
-          className="col-start-3 md:col-start-5 row-start-1 col-span-1 row-span-1 rounded-xl"
+          className="col-span-3 row-span-3 md:col-span-1 md:row-span-1 md:col-start-5 md:row-start-1"
         />
         <ReviewCard
           image="/reviews/Ibrahim.webp"
@@ -96,7 +94,7 @@ export const Reviews = () => {
           comment="I am grateful to be a part of such a meaningful cause. 
                     Keep up the incredible work in transforming lives and communities."
           isLarge={false}
-          className="col-start-3 md:col-start-5 row-start-4 md:row-start-2 col-span-1 row-span-1 rounded-xl"
+          className="col-span-3 row-span-3 md:col-span-1 md:row-span-1 md:col-start-5 md:row-start-2"
         />
         <ReviewCard
           image="/reviews/Hafsah.jpg"
@@ -105,7 +103,7 @@ export const Reviews = () => {
           comment="Your work embodies the true spirit of charity and selflessness. 
                     Thank you for being a beacon of light in a world that can often feel dark and uncertain."
           isLarge={false}
-          className="col-start-4 md:col-start-6 row-start-2 md:row-start-1 col-span-1 row-span-1 rounded-xl"
+          className="col-span-3 row-span-3 md:col-span-1 md:row-span-1 md:col-start-6 md:row-start-1"
         />
       </motion.div>
     </div>
@@ -131,65 +129,70 @@ const ReviewCard = ({
 }: reviewProps) => (
   <Card
     className={cn(
-      "my-auto flex flex-col w-fit h-fit justify-center",
+      "my-auto flex flex-col border-zinc-100 dark:border-zinc-800",
       className
     )}>
     <CardHeader
       className={cn(
         "flex-row items-center pb-0",
         isLarge
-          ? "space-x-4 md:space-x-8 px-6 md:px-12"
-          : "space-x-2 md:space-x-4 px-2 md:px-4"
+          ? "space-x-4 md:space-x-8 p-6"
+          : "space-x-2 md:space-x-4 p-2 md:p-4"
       )}>
       <Image
         src={image}
         alt=""
-        width={isLarge ? 80 : 40}
-        height={isLarge ? 80 : 40}
+        width={isLarge ? 64 : 32}
+        height={isLarge ? 64 : 32}
         className="rounded-full w-auto h-auto"
       />
-      <div>
+      <div className="flex flex-col items-start justify-center">
         <P
-          className={cn(isLarge ? "text-lg md:text-xl" : "text-xs md:text-sm")}>
+          className={cn(
+            "text-start",
+            isLarge ? "text-lg md:text-xl" : "text-xs md:text-sm"
+          )}>
           {name}
         </P>
         <Small
           className={cn(
-            "text-muted-foreground",
+            "text-muted-foreground text-start",
             isLarge ? "text-sm md:text-base" : "text-xs"
           )}>
           {profession}
         </Small>
       </div>
     </CardHeader>
-    <CardContent className={cn("pt-0", isLarge ? "p-3 md:p-8" : "p-1 md:p-2")}>
-      <div className="relative text-pretty">
-        <QuoteIcon
-          className={cn(
-            "z-0 absolute left-0 rotate-180 text-slate-500/25",
-            isLarge
-              ? "w-8 md:w-16 h-8 md:h-16 top-2  md:top-4"
-              : "w-3 md:w-6 h-3 md:h-6 top-0"
-          )}
-        />
-        <Quote
-          className={cn(
-            "z-10 border-none text-pretty",
-            isLarge
-              ? "text-base md:text-lg lg:text-xl py-5 md:py-10 indent-8 md:indent-12"
-              : "text-xs md:text-sm p-2 indent-4"
-          )}>
-          {comment}
-        </Quote>
-        <QuoteIcon
-          className={cn(
-            "absolute right-0 text-slate-500/25",
-            isLarge
-              ? "w-8 md:w-16 h-8 md:h-16 bottom-2 md:bottom-4"
-              : "w-3 md:w-6 h-3 md:h-6 bottom-1 md:bottom-2"
-          )}
-        />
-      </div>
+    <CardContent
+      className={cn(
+        isLarge ? "p-3 md:p-8" : "p-1 md:p-2",
+        "pt-0 relative text-pretty"
+      )}>
+      <QuoteIcon
+        className={cn(
+          "z-0 absolute left-2 top-2 rotate-180 text-zinc-500/25",
+          isLarge
+            ? "w-8 md:w-16 h-8 md:h-16 top-2  md:top-4"
+            : "w-3 md:w-6 h-3 md:h-6 top-0"
+        )}
+      />
+      <Quote
+        className={cn(
+          "z-10 border-l-0 pl-0 mt-0 text-pretty",
+          isLarge
+            ? "text-base md:text-lg lg:text-xl py-5 md:py-10 indent-8 md:indent-12"
+            : "text-xs md:text-sm p-2 indent-4"
+        )}>
+        {comment}
+      </Quote>
+      <QuoteIcon
+        className={cn(
+          "absolute right-2 bottom-2 text-zinc-500/25",
+          isLarge
+            ? "w-8 md:w-16 h-8 md:h-16 bottom-2 md:bottom-4"
+            : "w-3 md:w-6 h-3 md:h-6 bottom-1 md:bottom-2"
+        )}
+      />
     </CardContent>
   </Card>
 );

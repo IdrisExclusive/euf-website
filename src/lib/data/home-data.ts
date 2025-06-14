@@ -64,7 +64,7 @@ export const monthlyPlans: PricingCardProps[] = [
     price: "Custom",
     description: "Choose an amount that's right for you",
     features: [
-      "Impact equivalent to the donation amount, with benefits adjusted accordingly",
+      "Impact equivalent to the donation amount",
     ],
     actionLabel: "Donate Now",
     isYearly: false,
@@ -103,7 +103,7 @@ export const yearlyPlans: PricingCardProps[] = [
     price: "Custom",
     description: "Choose an amount that's right for you",
     features: [
-      "Impact equivalent to the donation amount, with benefits adjusted accordingly",
+      "Impact equivalent to the donation amount",
     ],
     actionLabel: "Donate Now",
     isYearly: false,
@@ -143,7 +143,7 @@ export const onetimePlans: PricingCardProps[] = [
     price: "Custom",
     description: "Choose an amount that's right for you",
     features: [
-      "Impact equivalent to the donation amount, with benefits adjusted accordingly",
+      "Impact equivalent to the donation amount",
     ],
     actionLabel: "Donate Now",
     isYearly: false,

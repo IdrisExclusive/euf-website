@@ -496,7 +496,7 @@ export const GridAnimation = ({
     <motion.div
       style={{ rotateX, scale, transformStyle: "preserve-3d" }}
       className={cn(
-        "justify-center items-center drop-shadow-2xl z-10 sticky top-20 lg:top-32 grid grid-flow-row grid-cols-4 grid-rows-4 mx-auto w-3/4 lg:w-3/4 aspect-phone sm:aspect-video",
+        "justify-center items-center drop-shadow-2xl z-10 sticky top-20 lg:top-32 grid grid-flow-row grid-cols-4 grid-rows-4 mx-auto w-[92dvw] lg:w-4/5 lg:aspect-video h-[calc(100dvh-160px)] lg:h-fit",
         className
       )}>
       <motion.div
@@ -505,20 +505,20 @@ export const GridAnimation = ({
           x: x11,
           y: y11,
         }}
-        className="col-start-1 row-start-1 col-span-1 row-span-1 aspect-phone sm:aspect-video">
+        className="col-start-1 row-start-1 col-span-1 row-span-1 h-full lg:aspect-video">
         <Image
           src="/food/food5.jpg"
           alt=""
           width={1024}
           height={576}
-          className="hidden sm:block"
+          className="hidden lg:block object-center"
         />
         <Image
           src="/food/food5 phone.jpg"
           alt=""
           width={1024}
           height={576}
-          className="block sm:hidden"
+          className="block lg:hidden h-full w-full object-center"
         />
       </motion.div>
       <motion.div
@@ -527,20 +527,20 @@ export const GridAnimation = ({
           x: x12,
           y: y12,
         }}
-        className="col-start-1 row-start-2 col-span-1 row-span-1 aspect-phone sm:aspect-video">
+        className="col-start-1 row-start-2 col-span-1 row-span-1 h-full lg:aspect-video">
         <Image
           src="/food/food3.jpg"
           alt=""
           width={1024}
           height={576}
-          className="hidden sm:block"
+          className="hidden lg:block object-center"
         />
         <Image
           src="/food/food3 phone.jpg"
           alt=""
           width={1024}
           height={576}
-          className="block sm:hidden"
+          className="block lg:hidden h-full w-full object-center"
         />
       </motion.div>
       <motion.div
@@ -549,20 +549,20 @@ export const GridAnimation = ({
           x: x13,
           y: y13,
         }}
-        className="col-start-1 row-start-3 col-span-1 row-span-1 aspect-phone sm:aspect-video">
+        className="col-start-1 row-start-3 col-span-1 row-span-1 h-full lg:aspect-video">
         <Image
           src="/food/food4.jpg"
           alt=""
           width={1024}
           height={576}
-          className="hidden sm:block"
+          className="hidden lg:block object-center"
         />
         <Image
           src="/food/food4 phone.jpg"
           alt=""
           width={1024}
           height={576}
-          className="block sm:hidden"
+          className="block lg:hidden h-full w-full object-center"
         />
       </motion.div>
       <motion.div
@@ -571,20 +571,20 @@ export const GridAnimation = ({
           x: x14,
           y: y14,
         }}
-        className="col-start-1 row-start-4 col-span-1 row-span-1 aspect-phone sm:aspect-video">
+        className="col-start-1 row-start-4 col-span-1 row-span-1 h-full lg:aspect-video">
         <Image
           src="/borehole/water.jpg"
           alt=""
           width={1024}
           height={576}
-          className="hidden sm:block"
+          className="hidden lg:block object-center"
         />
         <Image
           src="/borehole/water phone.jpg"
           alt=""
           width={1024}
           height={576}
-          className="block sm:hidden"
+          className="block lg:hidden h-full w-full object-center"
         />
       </motion.div>
       <motion.div
@@ -593,20 +593,20 @@ export const GridAnimation = ({
           x: x21,
           y: y21,
         }}
-        className="col-start-2 row-start-1 col-span-1 row-span-1 aspect-phone sm:aspect-video">
+        className="col-start-2 row-start-1 col-span-1 row-span-1 h-full lg:aspect-video">
         <Image
           src="/food/food2.jpg"
           alt=""
           width={1024}
           height={576}
-          className="hidden sm:block"
+          className="hidden lg:block object-center"
         />
         <Image
           src="/food/food2 phone.jpg"
           alt=""
           width={1024}
           height={576}
-          className="block sm:hidden"
+          className="block lg:hidden h-full w-full object-center"
         />
       </motion.div>
       <motion.div
@@ -615,20 +615,20 @@ export const GridAnimation = ({
           x: x22,
           y: y22,
         }}
-        className="z-40 col-start-2 row-start-2 col-span-2 row-span-2 aspect-phone sm:aspect-video object-center">
+        className="z-40 col-start-2 row-start-2 col-span-2 row-span-2 h-full lg:aspect-video object-center">
         <Image
           src="/borehole/tap.jpg"
           alt=""
           width={1024}
           height={576}
-          className="hidden sm:block"
+          className="hidden lg:block object-center"
         />
         <Image
           src="/borehole/tap phone.jpg"
           alt=""
           width={1024}
           height={576}
-          className="block sm:hidden"
+          className="block lg:hidden h-full w-full object-center"
         />
       </motion.div>
       <motion.div
@@ -637,20 +637,20 @@ export const GridAnimation = ({
           x: x24,
           y: y24,
         }}
-        className="col-start-2 row-start-4 col-span-1 row-span-1 aspect-phone sm:aspect-video">
+        className="col-start-2 row-start-4 col-span-1 row-span-1 h-full lg:aspect-video">
         <Image
           src="/borehole/tap4.jpg"
           alt=""
           width={1024}
           height={576}
-          className="hidden sm:block"
+          className="hidden lg:block object-center"
         />
         <Image
           src="/borehole/tap4 phone.jpg"
           alt=""
           width={1024}
           height={576}
-          className="block sm:hidden"
+          className="block lg:hidden h-full w-full object-center"
         />
       </motion.div>
       <motion.div
@@ -659,20 +659,20 @@ export const GridAnimation = ({
           x: x31,
           y: y31,
         }}
-        className="col-start-3 row-start-1 col-span-1 row-span-1 aspect-phone sm:aspect-video">
+        className="col-start-3 row-start-1 col-span-1 row-span-1 h-full lg:aspect-video">
         <Image
           src="/food/food1.jpg"
           alt=""
           width={1024}
           height={576}
-          className="hidden sm:block"
+          className="hidden lg:block object-center"
         />
         <Image
           src="/food/food1 phone.jpg"
           alt=""
           width={1024}
           height={576}
-          className="block sm:hidden"
+          className="block lg:hidden h-full w-full object-center"
         />
       </motion.div>
       <motion.div
@@ -681,20 +681,20 @@ export const GridAnimation = ({
           x: x34,
           y: y34,
         }}
-        className="z-20 col-start-3 row-start-4 col-span-1 row-span-1 aspect-phone sm:aspect-video">
+        className="z-20 col-start-3 row-start-4 col-span-1 row-span-1 h-full lg:aspect-video">
         <Image
           src="/food/food.jpg"
           alt=""
           width={1024}
           height={576}
-          className="hidden sm:block"
+          className="hidden lg:block object-center"
         />
         <Image
           src="/food/food phone.jpg"
           alt=""
           width={1024}
           height={576}
-          className="block sm:hidden"
+          className="block lg:hidden h-full w-full object-center"
         />
       </motion.div>
       <motion.div
@@ -703,20 +703,20 @@ export const GridAnimation = ({
           x: x41,
           y: y41,
         }}
-        className="z-30 col-start-4 row-start-1 col-span-1 row-span-1 aspect-phone sm:aspect-video">
+        className="z-30 col-start-4 row-start-1 col-span-1 row-span-1 h-full lg:aspect-video">
         <Image
           src="/borehole/drilling.jpg"
           alt=""
           width={1024}
           height={576}
-          className="hidden sm:block"
+          className="hidden lg:block object-center"
         />
         <Image
           src="/borehole/drilling phone.jpg"
           alt=""
           width={1024}
           height={576}
-          className="block sm:hidden"
+          className="block lg:hidden h-full w-full object-center"
         />
       </motion.div>
       <motion.div
@@ -725,20 +725,20 @@ export const GridAnimation = ({
           x: x42,
           y: y42,
         }}
-        className="col-start-4 row-start-2 col-span-1 row-span-1 aspect-phone sm:aspect-video">
+        className="col-start-4 row-start-2 col-span-1 row-span-1 h-full lg:aspect-video">
         <Image
           src="/borehole/tap1.jpg"
           alt=""
           width={1024}
           height={576}
-          className="hidden sm:block"
+          className="hidden lg:block object-center"
         />
         <Image
           src="/borehole/tap1 phone.jpg"
           alt=""
           width={1024}
           height={576}
-          className="block sm:hidden"
+          className="block lg:hidden h-full w-full object-center"
         />
       </motion.div>
       <motion.div
@@ -747,20 +747,20 @@ export const GridAnimation = ({
           x: x43,
           y: y43,
         }}
-        className="col-start-4 row-start-3 col-span-1 row-span-1 aspect-phone sm:aspect-video">
+        className="col-start-4 row-start-3 col-span-1 row-span-1 h-full lg:aspect-video">
         <Image
           src="/borehole/tap2.jpg"
           alt=""
           width={1024}
           height={576}
-          className="hidden sm:block"
+          className="hidden lg:block object-center"
         />
         <Image
           src="/borehole/tap2 phone.jpg"
           alt=""
           width={1024}
           height={576}
-          className="block sm:hidden"
+          className="block lg:hidden h-full w-full object-center"
         />
       </motion.div>
       <motion.div
@@ -769,20 +769,20 @@ export const GridAnimation = ({
           x: x44,
           y: y44,
         }}
-        className="col-start-4 row-start-4 col-span-1 row-span-1 aspect-phone sm:aspect-video">
+        className="col-start-4 row-start-4 col-span-1 row-span-1 h-full lg:aspect-video">
         <Image
           src="/borehole/tap3.jpg"
           alt=""
           width={1024}
           height={576}
-          className="hidden sm:block"
+          className="hidden lg:block object-center"
         />
         <Image
           src="/borehole/tap3 phone.jpg"
           alt=""
           width={1024}
           height={576}
-          className="block sm:hidden"
+          className="block lg:hidden h-full w-full object-center"
         />
       </motion.div>
       <DetailsMotion
@@ -834,12 +834,12 @@ const Header = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
         "flex flex-col w-full gap-4 h-fit my-4 mx-auto justify-center items-center",
         className
       )}>
-      <H2 className="text-center border-none text-primary dark:text-slate-300">
+      <H2 className="text-center border-none text-primary dark:text-zinc-300">
         Project Gallery
       </H2>
       <Button className="group gap-2 justify-between">
-        <div className="px-8 text-slate-100">Go to project page</div>
-        <ArrowRightIcon className="text-slate-100 translate-x-0 group-hover:translate-x-[2px] transition-transform delay-75 duration-150" />
+        <div className="px-8 text-zinc-100">Go to project page</div>
+        <ArrowRightIcon className="text-zinc-100 translate-x-0 group-hover:translate-x-[2px] transition-transform delay-75 duration-150" />
       </Button>
     </div>
   )
@@ -857,26 +857,24 @@ const Details = forwardRef<HTMLDivElement, detailsProps>(
       ref={ref}
       {...props}
       className={cn(
-        "relative flex flex-col w-2/3 sm:w-1/2 h-fit justify-center items-start",
+        "relative flex flex-col w-2/3 lg:w-1/2 h-fit justify-center items-start",
         className
       )}>
-      <div className="flex flex-col mx-4 sm:mx-8 lg:mx-16 gap-4 py-8">
+      <div className="flex flex-col mx-4 lg:mx-16 gap-4 py-8">
         {title && (
-          <H1 className="font-bold sm:font-extrabold tracking-normal sm:tracking-tight border-l-8 sm:border-l-[16px] border-accent px-2 sm:px-4 text-slate-300">
+          <H1 className="font-bold lg:font-extrabold tracking-normal lg:tracking-tight border-l-8 lg:border-l-[16px] border-accent px-2 lg:px-4 text-zinc-300">
             {title}
           </H1>
         )}
-        <P className="text-sm sm:text-base lg:text-lg w-full text-slate-100">
-          {text}
-        </P>
+        <P className="text-sm lg:text-lg w-full text-zinc-100">{text}</P>
       </div>
       {showButton && (
-        <Button className="group gap-2 h-8 md:h-9 justify-between mx-4 sm:mx-8 lg:mx-16 mb-8">
-          <div className="px-2 text-slate-100">Explore Projects</div>
-          <ArrowRightIcon className="text-slate-100 translate-x-0 group-hover:translate-x-[2px] transition-transform delay-75 duration-150" />
+        <Button className="group gap-2 h-8 md:h-9 justify-between mx-4 lg:mx-16 mb-8">
+          <div className="px-2 text-zinc-100">Explore Projects</div>
+          <ArrowRightIcon className="text-zinc-100 translate-x-0 group-hover:translate-x-[2px] transition-transform delay-75 duration-150" />
         </Button>
       )}
-      <div className="absolute -z-10 w-full h-full backdrop-blur-sm bg-slate-900/60"></div>
+      <div className="absolute -z-10 w-full h-full backdrop-blur-sm bg-zinc-900/60"></div>
     </div>
   )
 );

@@ -39,10 +39,10 @@ const ThemeToggleButtonWithDropdown = React.forwardRef<
         onClick={() =>
           theme === "light" ? setTheme("dark") : setTheme("light")
         }
-        className="hover:bg-slate-400/20">
+        className="hover:bg-zinc-400/20">
         <Icon />
       </ButtonForDropdown>
-      <Dropdown className="hover:bg-slate-400/20">
+      <Dropdown className="hover:bg-zinc-400/20">
         <DropdownMenuItem onClick={() => setTheme("light")}>
           Light
         </DropdownMenuItem>

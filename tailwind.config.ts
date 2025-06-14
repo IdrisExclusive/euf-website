@@ -105,6 +105,9 @@ const config = {
         "7000": "7000ms",
         "10000": "10000ms",
       },
+      gridTemplateColumns: {
+        22: "repeat(22, minmax(0, 1fr))",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

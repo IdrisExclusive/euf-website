@@ -34,12 +34,12 @@ import {
 import { FormStatusMessage } from "./auth/form-message";
 
 export const Footer = () => (
-  <div className="grid grid-cols-1 grid-rows-6 md:grid-cols-3 md:grid-rows-3 lg:grid-cols-6 lg:grid-rows-2 mx-auto p-12 gap-4 w-4/5 max-w-[1440px] place-items-center md:place-items-start justify-evenly item-center rounded-xl bg-slate-200 dark:bg-slate-900">
-    <div className="flex flex-col justify-center items-center col-start-1 row-start-1 col-span-1 row-span-1 md:row-span-5 lg:row-span-3 lg:col-span-2 space-y-8">
+  <div className="grid grid-cols-1 md:grid-cols-6 md:grid-rows-1 mx-auto p-12 gap-4 w-4/5 max-w-[1440px] rounded-xl bg-zinc-200 dark:bg-zinc-900">
+    <div className="flex flex-col col-start-1 row-start-1 col-span-1 row-span-1 md:row-span-1 md:col-span-2 space-y-8">
       <Logo />
-      <Socials />
+      {/* <Socials /> */}
     </div>
-    <Section
+    {/* <Section
       title="Explore"
       list={exploreSection}
       className="col-start-1 row-start-2 col-span-1 row-span-1 md:col-start-2 md:row-start-1 md:row-span-1 lg:col-start-3 lg:row-start-1"
@@ -58,21 +58,21 @@ export const Footer = () => (
       title="Contact Us"
       list={contactUsSection}
       className="col-start-1 row-start-5 col-span-1 row-span-1 md:col-start-3 md:row-start-2 md:row-span-1 lg:col-start-6 lg:row-start-1"
-    />
-    <NewsletterSignUp className="col-start-1 row-start-6 col-span-1 row-span-1 md:col-start-2 md:row-start-3 md:col-span-2 lg:col-start-3 lg:row-start-2 lg:col-span-4 md:place-self-end" />
+    /> */}
+    <NewsletterSignUp className="col-start-1 row-start-2 col-span-1 row-span-1 md:col-start-3 md:row-start-1 md:col-span-4 md:place-self-end" />
   </div>
 );
 
 const Logo = ({ className }: { className?: string }) => (
-  <div className={cn("mx-auto", className)}>
+  <div className={cn("", className)}>
     <Image
       src="/euf-logo.svg"
       alt="logo"
       width={128}
       height={80}
-      className="w-32 h-20 mx-auto"
+      className="w-32 h-20"
     />
-    <P className="text-center">Eagle Ummah Foundation</P>
+    <P className="text-start">Eagle Ummah Foundation</P>
   </div>
 );
 
@@ -179,7 +179,7 @@ const FormComponent = ({
               <Button
                 type="submit"
                 data-testid="subscribe-button"
-                className="text-slate-200"
+                className="text-zinc-200"
                 disabled={pending}>
                 Subscribe
               </Button>

@@ -20,10 +20,10 @@ const SignUpBotton = React.forwardRef<
     )}
     ref={ref}
     {...props}>
-    <Button className="hover:bg-slate-400/20">
+    <Button className="hover:bg-zinc-400/20">
       <Link href="#">Donate Now</Link>
     </Button>
-    <Dropdown className="hover:bg-slate-400/20">
+    <Dropdown className="hover:bg-zinc-400/20">
       <DropdownMenuItem asChild>
         <Link href="#">Donate</Link>
       </DropdownMenuItem>

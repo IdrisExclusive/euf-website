@@ -26,7 +26,7 @@ export const FormStatusMessage = ({
         {
           "bg-emerald-200 dark:bg-emerald-800 text-emerald-800 dark:text-emerald-200":
             type === "success",
-          "bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200":
+          "bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200":
             type === "info" || type === "progress",
           "text-rose-800 dark:text-rose-200 bg-rose-200 dark:bg-rose-800":
             type === "error",

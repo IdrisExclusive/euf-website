@@ -5,18 +5,14 @@ import { Menu, menuProps } from "./menu";
 import { menuItems, type menuItemsType } from "../../../lib/data/home-data";
 import Image from "next/image";
 import { SignUpBotton } from "./signUpBotton";
-import { ThemeToggleSwitch } from "./themeToggleButton";
+import { ThemeToggleButton, ThemeToggleSwitch } from "./themeToggleButton";
 import { Button } from "../button";
 import Link from "next/link";
 import { cn } from "../../../lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { buttonWithDropdownProps } from "../buttonWithDropdown";
-import {
-  motion,
-  useMotionValueEvent,
-  useScroll,
-} from "framer-motion";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 
 export const navbarVariants = cva(
   "fixed w-full h-16 backdrop-blur shadow-md left-0 right-0 top-0 flex justify-between items-center py-4  space-x-4",
@@ -29,8 +25,8 @@ export const navbarVariants = cva(
         accent: "bg-accent/50",
       },
       menuslot: {
-        left: "pl-14 pr-4",
-        right: "pr-14 pl-4",
+        left: "px-2", //"pl-14 pr-4",
+        right: "px-2", // "pr-14 pl-4",
       },
     },
     defaultVariants: {
@@ -53,10 +49,13 @@ export const Navbar = React.forwardRef<HTMLDivElement, navbarProps>(
     ref
   ) => (
     <div
-      className={cn(navbarVariants({ background, menuslot, className }))}
+      className={cn(
+        navbarVariants({ background, menuslot, className }),
+        "w-full"
+      )}
       ref={ref}
       {...props}>
-      <div className="mx-4 inline-flex space-x-2 sm:space-x-4 justify-start items-center">
+      <div className="inline-flex space-x-2 sm:space-x-4 justify-start items-center">
         <Link href="/">
           <Image
             src="/euf-logo.svg"
@@ -67,7 +66,7 @@ export const Navbar = React.forwardRef<HTMLDivElement, navbarProps>(
             className="w-20 h-10 object-covert"
           />
         </Link>
-        <ul className="hidden md:inline-flex justify-start md:max-lg:space-x-4 space-x-0 lg:space-x-8 px-8 text-md font-semibold text-primary-foreground">
+        {/* <ul className="hidden md:inline-flex justify-start md:max-lg:space-x-4 space-x-0 lg:space-x-8 px-8 text-md font-semibold text-primary-foreground">
           {navlinks.map((link, i) => (
             <Button
               key={i}
@@ -77,7 +76,7 @@ export const Navbar = React.forwardRef<HTMLDivElement, navbarProps>(
               <Link href={link.url}>{link.title}</Link>
             </Button>
           ))}
-        </ul>
+        </ul> */}
       </div>
       {children}
     </div>
@@ -115,8 +114,8 @@ export const NavbarWithMenu = ({
       scrollDiff < 0.00005
         ? setShowNavBar(true)
         : scrollDiff < 0
-        ? setShowNavBar(true)
-        : setShowNavBar(false);
+          ? setShowNavBar(true)
+          : setShowNavBar(false);
     }
   });
 
@@ -128,27 +127,33 @@ export const NavbarWithMenu = ({
         className
       )}>
       <motion.div
-        className="z-20"
+        className="z-20 w-full bg-blue-500"
         initial={{ y: 0, opacity: 1 }}
         animate={{ y: showNavbar ? 0 : -100, opacity: showNavbar ? 1 : 0 }}
         transition={{ duration: 0.4, delay: 0.1 }}>
-        <Menu
+        {/* <Menu
           position={position}
           background={background}
           positionItems={positionItems}
           width={width}
           buttonsize={buttonsize}
           menuitems={menuItems}
-        />
+        /> */}
         <Navbar
           background={background}
           menuslot={position}
           logosrc={logosrc}
           navlinks={menuItems}
           className={className}>
-          <div className="px-8 md:px-20 lg:px-28 inline-flex space-x-4 justify-end items-center">
-            <SignUpBotton variant={variant} size={size} />
+          <div className="px-4 md:px-16 lg:px-28 inline-flex space-x-4 md:space-x-4 justify-end items-center">
+            {/* <SignUpBotton variant={variant} size={size} /> */}
+            <Button variant={variant} size={size} asChild>
+              <Link href="https://helpa-v1-prod.vercel.app/ngos/x0DvHJ ">
+                Donate Now
+              </Link>
+            </Button>
             <ThemeToggleSwitch className="hidden sm:inline-flex" />
+            <ThemeToggleButton className="inline-flex sm:hidden" />
           </div>
         </Navbar>
       </motion.div>

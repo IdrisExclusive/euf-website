@@ -4,13 +4,24 @@ import Image from "next/image";
 import { oAuthLogin } from "@/actions/auth/login";
 import { useSearchParams } from "next/navigation";
 
-export const Socials = ({ callbackUrl, className }: { callbackUrl: string | null; className?: string }) => (
+export const Socials = ({
+  callbackUrl,
+  className,
+}: {
+  callbackUrl: string | null;
+  className?: string;
+}) => (
   <div
     className={cn(
       "flex flex-row gap-8 justify-evenly items-center",
       className
     )}>
-    <SocialButton logo="/socials/google.png" name="google" provider="google" callbackUrl={callbackUrl} />
+    <SocialButton
+      logo="/socials/google.png"
+      name="google"
+      provider="google"
+      callbackUrl={callbackUrl}
+    />
     <div>
       <SocialButton
         logo="/socials/twitter.png"
@@ -52,7 +63,7 @@ const SocialButton = ({
         variant={"outline"}
         type="submit"
         className={cn(
-          "shadow-sm shadow-slate-400/50 justify-center items-center w-16 h-16 rounded-full border-none dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800",
+          "shadow-sm shadow-zinc-400/50 justify-center items-center w-16 h-16 rounded-full border-none dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800",
           className
         )}>
         <Image src={logo} alt={name} width={32} height={32} />
